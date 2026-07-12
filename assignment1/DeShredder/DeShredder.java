@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 
- * Version: 7/7/26
+ * Version: 12/7
  */
 
 import ecs100.*;
@@ -98,17 +98,23 @@ public class DeShredder {
      */
     public void load(Path dir, int count) {
         /*# YOUR CODE HERE */
-        /* emptying all shred lists */
+        /* erasing shreds */
         for (int i = 0; i < allShreds.size(); i++) {
-            allShreds.remove(i);
+            UI.eraseRect(LEFT+(GAP*i), TOP_ALL, SIZE, SIZE);
         }
         for (int i = 0; i < workingStrip.size(); i++) {
-            workingStrip.remove(i);
+            UI.eraseRect(LEFT+(GAP*i), TOP_ALL, SIZE, SIZE);
         }
         for (int i = 0; i < completedStrips.size(); i++) {
-            completedStrips.remove(i);
+            UI.eraseRect(LEFT+(GAP*i), TOP_ALL, SIZE, SIZE);
         }
 
+        /* clearing all ArrayLists */
+        allShreds.clear();
+        workingStrip.clear();
+        completedStrips.clear();
+
+        /* adds new shreds from selected folder */
         for (int i = 1; i < count; i++) {
             Shred temp = new Shred(dir, i);
             allShreds.add(temp);
@@ -126,16 +132,16 @@ public class DeShredder {
         /*# YOUR CODE HERE */
         if (allShreds.size() > 0) {
             Shred leftMostShred = allShreds.get(0); // remembers leftmost shred
-            for (int i = allShreds.size(); i < allShreds.size(); i++) {
-                // ugh idk
-                if (allShreds.get(i-1) != null) {
-                    Shred toReplace = allShreds.get(i-1);
-                    Shred current = allShreds.get(i);
-                    allShreds.set(i-1, current);
-                    current = toReplace;
-                }
+
+            allShreds.remove(0);
+            for (int i = 0; i < allShreds.size(); i++) { // erases shreds
+                UI.eraseRect(LEFT + (GAP * i), TOP_ALL, SIZE, SIZE); 
             }
-            allShreds.set(allShreds.size(), leftMostShred);
+
+            allShreds.add(leftMostShred);
+            for (int i = 0; i < allShreds.size(); i++) { // redraws as rotation
+                allShreds.get(i).draw(LEFT + (GAP * i), TOP_ALL);
+            }
         } else if (allShreds.size() <= 0) {
             UI.println("Nothing to rotate.");
         }
@@ -148,7 +154,12 @@ public class DeShredder {
      */
     public void shuffleList(){
         /*# YOUR CODE HERE */
-
+        for (int i = 0; i < allShreds.size(); i++) {
+            int randomPlace = (int)(Math.random() * (allShreds.size())); // randomizes placement
+            Shred memory = allShreds.get(i);
+            allShreds.remove(i);
+            allShreds.add(randomPlace, memory); 
+        }
     }
 
     /**
@@ -189,15 +200,50 @@ public class DeShredder {
             int toPosition = getColumn(x);     // the index to move the shred to (may be off the end)
             // perform the correct action, depending on the from/to strips/positions
             /*# YOUR CODE HERE */
-
+            if (toStrip == workingStrip && fromStrip == allShreds) { // all shreds to working strip
+                addToWorkingStrip(fromPosition, toPosition, fromStrip);
+            } else if (toStrip == allShreds && fromStrip == workingStrip) { // working strip to all shreds
+                addToAllShreds(fromPosition, toPosition);
+            } else if (toStrip == workingStrip && fromStrip == workingStrip) { // moving around working strip
+                addToWorkingStrip(fromPosition, toPosition, fromStrip);
+            }
             display();
         }
     }
-
     // Additional methods to perform the different actions, called by doMouse
 
     /*# YOUR CODE HERE */
+    // everything is out of bounds...
+    public void addToAllShreds(int fromPosition, int toPosition) {
+        UI.eraseRect(LEFT + (GAP * fromPosition), TOP_WORKING, SIZE, SIZE);
+        Shred memory = workingStrip.get(fromPosition);
+        workingStrip.remove(fromPosition);
+        allShreds.add(toPosition, memory);
+        memory.draw(LEFT + (GAP * toPosition), TOP_ALL);
+    }
 
+    public void addToWorkingStrip(int fromPosition, int toPosition, List<Shred> fromStrip) {
+        Shred memory = null;
+        if (fromStrip == allShreds) { // remove shred from allShreds
+            UI.eraseRect(LEFT + (GAP * fromPosition), TOP_ALL, SIZE, SIZE);
+            memory = allShreds.get(fromPosition);
+            allShreds.remove(fromPosition);
+        } else if (fromStrip == workingStrip) { // remove shred from workingStrip
+            UI.eraseRect(LEFT + (GAP * fromPosition), TOP_WORKING, SIZE, SIZE);
+            memory = workingStrip.get(fromPosition);
+            workingStrip.remove(fromPosition);
+        }
+
+        /* place shred in working strip */
+        if (memory != null) {
+            workingStrip.add(toPosition, memory);
+            memory.draw(LEFT + (GAP * toPosition), TOP_WORKING);
+        }
+    }
+
+    public void addToCompletedStrips(int fromPosition, int toPosition) {
+
+    }
     //=============================================================================
     // Completed for you. Do not change.
     // loadImage and saveImage may be useful for the challenge.
