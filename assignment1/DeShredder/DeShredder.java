@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 
- * Version: 12/7
+ * Version: 14/7
  */
 
 import ecs100.*;
@@ -98,17 +98,6 @@ public class DeShredder {
      */
     public void load(Path dir, int count) {
         /*# YOUR CODE HERE */
-        /* erasing shreds */
-        for (int i = 0; i < allShreds.size(); i++) {
-            UI.eraseRect(LEFT+(GAP*i), TOP_ALL, SIZE, SIZE);
-        }
-        for (int i = 0; i < workingStrip.size(); i++) {
-            UI.eraseRect(LEFT+(GAP*i), TOP_ALL, SIZE, SIZE);
-        }
-        for (int i = 0; i < completedStrips.size(); i++) {
-            UI.eraseRect(LEFT+(GAP*i), TOP_ALL, SIZE, SIZE);
-        }
-
         /* clearing all ArrayLists */
         allShreds.clear();
         workingStrip.clear();
@@ -118,8 +107,8 @@ public class DeShredder {
         for (int i = 1; i < count; i++) {
             Shred temp = new Shred(dir, i);
             allShreds.add(temp);
-            temp.draw(LEFT+(GAP*i), TOP_ALL);
         }
+        display();
     }
 
     /**
@@ -169,7 +158,20 @@ public class DeShredder {
      */
     public void completeStrip(){
         /*# YOUR CODE HERE */
+        if (workingStrip.size() < 5 || workingStrip.size() > 5) { // boundary checks
+            UI.println("Can't move to completed strip: strip size invalid.");
+        } else {
+            UI.eraseRect(LEFT + (GAP*5), TOP_WORKING, SIZE*5, SIZE); // erases working strip
 
+            /* memorizes strip */
+            ArrayList<Shred> completedStrip = new ArrayList<>();
+            for (int i = 0; i < workingStrip.size(); i++) {
+                completedStrip.add(workingStrip.get(i));
+            }
+            workingStrip.clear();
+            completedStrips.add(completedStrip);
+            display();
+        }
     }
 
     /**
@@ -207,42 +209,50 @@ public class DeShredder {
             } else if (toStrip == workingStrip && fromStrip == workingStrip) { // moving around working strip
                 addToWorkingStrip(fromPosition, toPosition, fromStrip);
             }
+            
+            if (fromStrip >= TOP_STRIPS && toStrip >= TOP_STRIPS) {
+                
+            }
             display();
         }
     }
     // Additional methods to perform the different actions, called by doMouse
 
-    /*# YOUR CODE HERE */
-    // everything is out of bounds...
+    /*# YOUR CODE HERE */ 
+    /**
+     * Selected working shred is removed and put into correct place in allShreds
+     */
     public void addToAllShreds(int fromPosition, int toPosition) {
-        UI.eraseRect(LEFT + (GAP * fromPosition), TOP_WORKING, SIZE, SIZE);
         Shred memory = workingStrip.get(fromPosition);
         workingStrip.remove(fromPosition);
         allShreds.add(toPosition, memory);
-        memory.draw(LEFT + (GAP * toPosition), TOP_ALL);
+        display();
     }
 
+    /**
+     * Selected shred is removed and put into correct place in working strip
+     */
     public void addToWorkingStrip(int fromPosition, int toPosition, List<Shred> fromStrip) {
         Shred memory = null;
         if (fromStrip == allShreds) { // remove shred from allShreds
-            UI.eraseRect(LEFT + (GAP * fromPosition), TOP_ALL, SIZE, SIZE);
             memory = allShreds.get(fromPosition);
             allShreds.remove(fromPosition);
         } else if (fromStrip == workingStrip) { // remove shred from workingStrip
-            UI.eraseRect(LEFT + (GAP * fromPosition), TOP_WORKING, SIZE, SIZE);
             memory = workingStrip.get(fromPosition);
             workingStrip.remove(fromPosition);
         }
 
         /* place shred in working strip */
-        if (memory != null) {
+        if (memory != null && workingStrip.size() >= toPosition) { // a shred is in intended position
             workingStrip.add(toPosition, memory);
-            memory.draw(LEFT + (GAP * toPosition), TOP_WORKING);
+        } else if(memory != null && workingStrip.size() < toPosition) { // no shreds in intended position
+            workingStrip.add(workingStrip.size(), memory);
         }
+        display();
     }
 
     public void addToCompletedStrips(int fromPosition, int toPosition) {
-
+        
     }
     //=============================================================================
     // Completed for you. Do not change.
