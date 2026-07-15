@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 
- * Version: 14/7
+ * Version: 15/7
  */
 
 import ecs100.*;
@@ -123,14 +123,10 @@ public class DeShredder {
             Shred leftMostShred = allShreds.get(0); // remembers leftmost shred
 
             allShreds.remove(0);
-            for (int i = 0; i < allShreds.size(); i++) { // erases shreds
-                UI.eraseRect(LEFT + (GAP * i), TOP_ALL, SIZE, SIZE); 
-            }
+            for (int i = 0; i < allShreds.size(); i++) {UI.eraseRect(LEFT + (GAP * i), TOP_ALL, SIZE, SIZE); }
 
             allShreds.add(leftMostShred);
-            for (int i = 0; i < allShreds.size(); i++) { // redraws as rotation
-                allShreds.get(i).draw(LEFT + (GAP * i), TOP_ALL);
-            }
+            for (int i = 0; i < allShreds.size(); i++) {allShreds.get(i).draw(LEFT + (GAP * i), TOP_ALL);}
         } else if (allShreds.size() <= 0) {
             UI.println("Nothing to rotate.");
         }
@@ -165,9 +161,7 @@ public class DeShredder {
 
             /* memorizes strip */
             ArrayList<Shred> completedStrip = new ArrayList<>();
-            for (int i = 0; i < workingStrip.size(); i++) {
-                completedStrip.add(workingStrip.get(i));
-            }
+            for (int i = 0; i < workingStrip.size(); i++) {completedStrip.add(workingStrip.get(i));}
             workingStrip.clear();
             completedStrips.add(completedStrip);
             display();
@@ -208,11 +202,10 @@ public class DeShredder {
                 addToAllShreds(fromPosition, toPosition);
             } else if (toStrip == workingStrip && fromStrip == workingStrip) { // moving around working strip
                 addToWorkingStrip(fromPosition, toPosition, fromStrip);
+            } else if (completedStrips.contains(toStrip) && completedStrips.contains(fromStrip)) {
+                arrangeCompletedStrips(fromStrip, toStrip);
             }
-            
-            if (fromStrip >= TOP_STRIPS && toStrip >= TOP_STRIPS) {
-                
-            }
+
             display();
         }
     }
@@ -240,19 +233,21 @@ public class DeShredder {
         } else if (fromStrip == workingStrip) { // remove shred from workingStrip
             memory = workingStrip.get(fromPosition);
             workingStrip.remove(fromPosition);
+        } else if (completedStrips.contains(fromStrip) && workingStrip.isEmpty()) {
+
         }
 
         /* place shred in working strip */
-        if (memory != null && workingStrip.size() >= toPosition) { // a shred is in intended position
-            workingStrip.add(toPosition, memory);
-        } else if(memory != null && workingStrip.size() < toPosition) { // no shreds in intended position
-            workingStrip.add(workingStrip.size(), memory);
-        }
+        if (memory != null && workingStrip.size() >= toPosition) { workingStrip.add(toPosition, memory);}
+        else if(memory != null && workingStrip.size() < toPosition) {workingStrip.add(workingStrip.size(), memory);}
         display();
     }
 
-    public void addToCompletedStrips(int fromPosition, int toPosition) {
-        
+    public void arrangeCompletedStrips(List<Shred> toStrip, List<Shred> fromStrip) {
+        List<List<Shred>> memory = null;
+        memory.add(completedStrips.get(completedStrips.indexOf(fromStrip))); // some kind of issue........
+        completedStrips.remove(completedStrips.indexOf(fromStrip));
+        completedStrips.add(completedStrips.indexOf(toStrip), memory.get(0));
     }
     //=============================================================================
     // Completed for you. Do not change.
@@ -312,8 +307,7 @@ public class DeShredder {
     public List<Shred> getStrip(double y){
         int row = (int) ((y-TOP_ALL)/(SIZE+GAP));
         if (row<=0){
-            return allShreds;
-        }
+            return allShreds;}
         else if (row==1){
             return workingStrip;
         }

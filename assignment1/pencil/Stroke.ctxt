@@ -1,5 +1,5 @@
 #BlueJ class context
-#Wed Jul 15 17:26:03 NZST 2026
+#Wed Jul 15 22:14:55 NZST 2026
 comment0.target=Stroke
 comment1.params=firstX firstY lastX lastY
 comment1.target=Stroke(double, double, double, double)
