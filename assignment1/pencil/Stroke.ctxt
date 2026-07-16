@@ -1,16 +1,18 @@
 #BlueJ class context
-#Wed Jul 15 22:14:55 NZST 2026
+#Thu Jul 16 18:11:02 NZST 2026
 comment0.target=Stroke
-comment1.params=firstX firstY lastX lastY
-comment1.target=Stroke(double, double, double, double)
+comment1.params=firstX firstY lastX lastY color width
+comment1.target=Stroke(double, double, double, double, java.awt.Color, double)
 comment1.text=\r\n Constructor for objects of class Stroke\r\n
 comment2.target=double getFirstX()
 comment2.text=Getters
 comment3.target=double getFirstY()
 comment4.target=double getLastX()
 comment5.target=double getLastY()
-comment6.target=void draw()
-comment6.text=\r\n Draws existing stroke\r\n
-comment7.target=void erase()
-comment7.text=\r\n Erases existing stroke\r\n
-numComments=8
+comment6.target=java.awt.Color getColor()
+comment7.target=double getWidth()
+comment8.target=void draw()
+comment8.text=\r\n Draws existing stroke\r\n
+comment9.target=void erase()
+comment9.text=\r\n Erases existing stroke\r\n
+numComments=10

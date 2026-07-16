@@ -12,20 +12,30 @@
 import ecs100.*;
 import java.util.*;
 import java.util.Stack;
+import java.awt.Color;
+import javax.swing.JColorChooser;
 
 /** Pencil   */
 public class Pencil{
+    private static final Color DEFAULT_COLOR = Color.BLACK;
+    private static final double DEFAULT_WIDTH = 3;
+    
+    /* stroke variables */
     private double lastX;
     private double lastY;
     private double finalX;
     private double finalY;
+    private Color color = DEFAULT_COLOR;
+    private double width = DEFAULT_WIDTH;
     
+    /* handling strokes */
     Stroke lastStroke;
+    private ArrayList<Stroke> currentStrokes = new ArrayList<>();
     
-    private ArrayList<Stroke> strokes = new ArrayList<>();
-    
+    /* handling undo/redo */
     private Stack<ArrayList<Stroke>> undoStack = new Stack<>();
     private Stack<ArrayList<Stroke>> redoStack = new Stack<>();
+    
     /**
      * Setup the GUI
      */
@@ -33,6 +43,8 @@ public class Pencil{
         UI.setMouseMotionListener(this::doMouse);
         UI.addButton("Undo", this::undo);
         UI.addButton("Redo", this::redo);
+        UI.addButton("Change Colour", this::changeColor);
+        UI.addSlider("Pen Width", 0.5, 10, DEFAULT_WIDTH, this::setSize);
         UI.addButton("Quit", UI::quit);
         UI.setLineWidth(3);
         UI.setDivider(0.0);
@@ -47,26 +59,29 @@ public class Pencil{
             lastY = y;
         }
         else if (action.equals("dragged")){
+            UI.setColor(color);
+            UI.setLineWidth(width);
             UI.drawLine(lastX, lastY, x, y);
-            lastStroke = new Stroke (lastX, lastY, x, y);
-            strokes.add(lastStroke);
+            lastStroke = new Stroke (lastX, lastY, x, y, color, width);
+            currentStrokes.add(lastStroke);
             lastX = x;
             lastY = y;
         }
         else if (action.equals("released")){
-            ArrayList<Stroke> copy = new ArrayList<Stroke>(strokes);
+            ArrayList<Stroke> copy = new ArrayList<Stroke>(currentStrokes);
             addUndo(copy);
         }
     }
 
-    /** Adds most recent stroke to undo stack */
+    /** Adds most recent stroke to undo stack, clears current stroke */
     private void addUndo(ArrayList copy) {
         undoStack.push(copy);
-        strokes.clear();
+        currentStrokes.clear();
     }
 
     /** 
-     * Erases whole stroke, removes from undo stack, then adds to redo stack
+     * Checks if stack is empty to validate undo, erases whole stroke,
+     * adds to redo stack, removes from undo stack
      */
     private void undo() {
         if (undoStack.isEmpty()) {
@@ -82,7 +97,8 @@ public class Pencil{
     }
 
     /**
-     * Checks if stack is empty to validate redo, draws last undone stroke, removes from redo stack, adds to undo stack, repopulates stroke
+     * Checks if stack is empty to validate redo, draws last undone stroke,
+     * repopulates current stroke, adds to undo stack, removes from redo stack
      */
     private void redo() {
         if (redoStack.isEmpty()) {
@@ -91,11 +107,19 @@ public class Pencil{
             for (int i = 0; i < redoStack.peek().size(); i++) {
                 Stroke toRedraw = redoStack.peek().get(i);
                 toRedraw.draw();
-                strokes.add(redoStack.peek().get(i));
+                currentStrokes.add(redoStack.peek().get(i));
             }
             undoStack.push(redoStack.peek());
             redoStack.pop();
         }
+    }
+    
+    private void changeColor() {
+        color = JColorChooser.showDialog(null, "Choose Colour", DEFAULT_COLOR);
+    }
+    
+    private void setSize(double width) {
+        this.width = width;
     }
 
     public static void main(String[] arguments){

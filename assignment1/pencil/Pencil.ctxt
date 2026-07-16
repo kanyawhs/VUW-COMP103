@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Jul 16 17:39:28 NZST 2026
+#Thu Jul 16 18:10:53 NZST 2026
 comment0.target=Pencil
 comment0.text=Pencil
 comment1.target=void setupGUI()
@@ -9,11 +9,14 @@ comment2.target=void doMouse(java.lang.String, double, double)
 comment2.text=\r\n Respond to mouse events\r\n
 comment3.params=copy
 comment3.target=void addUndo(java.util.ArrayList)
-comment3.text=Adds most recent stroke to undo stack
+comment3.text=Adds most recent stroke to undo stack, clears current stroke
 comment4.target=void undo()
-comment4.text=\ \r\n Erases whole stroke, removes from undo stack, then adds to redo stack\r\n
+comment4.text=\ \r\n Checks if stack is empty to validate undo, erases whole stroke,\r\n adds to redo stack, removes from undo stack\r\n
 comment5.target=void redo()
-comment5.text=\r\n Checks if stack is empty to validate redo, draws last undone stroke, removes from redo stack, adds to undo stack, repopulates stroke\r\n
-comment6.params=arguments
-comment6.target=void main(java.lang.String[])
-numComments=7
+comment5.text=\r\n Checks if stack is empty to validate redo, draws last undone stroke,\r\n repopulates current stroke, adds to undo stack, removes from redo stack\r\n
+comment6.target=void changeColor()
+comment7.params=width
+comment7.target=void setSize(double)
+comment8.params=arguments
+comment8.target=void main(java.lang.String[])
+numComments=9
