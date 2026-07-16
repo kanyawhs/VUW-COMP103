@@ -2,17 +2,11 @@
 // You are granted permission to use it to construct your answer to a COMP103 assignment.
 // You may not distribute it in any other way without permission.
 
-/**
- * current prob:
- * everything undoes
- * nothing redoes
- */
-
 /* Code for COMP103 - 2026T2, Assignment 1
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 15/7
+ * Version: 16/7
  */
 
 import ecs100.*;
@@ -25,7 +19,11 @@ public class Pencil{
     private double lastY;
     private double finalX;
     private double finalY;
-    private ArrayList<Stroke> stroke = new ArrayList<>();
+    
+    Stroke lastStroke;
+    
+    private ArrayList<Stroke> strokes = new ArrayList<>();
+    
     private Stack<ArrayList<Stroke>> undoStack = new Stack<>();
     private Stack<ArrayList<Stroke>> redoStack = new Stack<>();
     /**
@@ -50,32 +48,39 @@ public class Pencil{
         }
         else if (action.equals("dragged")){
             UI.drawLine(lastX, lastY, x, y);
-            Stroke lastStroke = new Stroke(lastX, lastY, x, y);
+            lastStroke = new Stroke (lastX, lastY, x, y);
+            strokes.add(lastStroke);
             lastX = x;
             lastY = y;
-            stroke.add(lastStroke);
         }
         else if (action.equals("released")){
-            addUndo(stroke);
+            ArrayList<Stroke> copy = new ArrayList<Stroke>(strokes);
+            addUndo(copy);
         }
     }
-    
+
     /** Adds most recent stroke to undo stack */
-    private void addUndo(ArrayList stroke) {undoStack.push(stroke);}
-    
+    private void addUndo(ArrayList copy) {
+        undoStack.push(copy);
+        strokes.clear();
+    }
+
     /** 
      * Erases whole stroke, removes from undo stack, then adds to redo stack
      */
     private void undo() {
-        for (int i = 0; i < stroke.size(); i++) {
-            Stroke toErase = undoStack.peek().get(i);
-            toErase.erase();
+        if (undoStack.isEmpty()) {
+            UI.println("No strokes to undo");
+        } else {
+            for (int i = 0; i < undoStack.peek().size(); i++) { 
+                Stroke toErase = undoStack.peek().get(i);
+                toErase.erase();
+            }
+            redoStack.push(undoStack.peek());
+            undoStack.pop();
         }
-        undoStack.pop();
-        redoStack.push(stroke);
-        stroke.clear();
     }
-    
+
     /**
      * Checks if stack is empty to validate redo, draws last undone stroke, removes from redo stack, adds to undo stack, repopulates stroke
      */
@@ -83,14 +88,13 @@ public class Pencil{
         if (redoStack.isEmpty()) {
             UI.println("No actions to redo.");
         } else {
-            stroke.clear();
             for (int i = 0; i < redoStack.peek().size(); i++) {
                 Stroke toRedraw = redoStack.peek().get(i);
                 toRedraw.draw();
-                stroke.add(redoStack.peek().get(i));
+                strokes.add(redoStack.peek().get(i));
             }
+            undoStack.push(redoStack.peek());
             redoStack.pop();
-            undoStack.push(stroke);
         }
     }
 

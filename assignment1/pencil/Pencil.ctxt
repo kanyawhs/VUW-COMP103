@@ -1,5 +1,5 @@
 #BlueJ class context
-#Wed Jul 15 22:25:15 NZST 2026
+#Thu Jul 16 17:39:28 NZST 2026
 comment0.target=Pencil
 comment0.text=Pencil
 comment1.target=void setupGUI()
@@ -7,7 +7,7 @@ comment1.text=\r\n Setup the GUI\r\n
 comment2.params=action x y
 comment2.target=void doMouse(java.lang.String, double, double)
 comment2.text=\r\n Respond to mouse events\r\n
-comment3.params=stroke
+comment3.params=copy
 comment3.target=void addUndo(java.util.ArrayList)
 comment3.text=Adds most recent stroke to undo stack
 comment4.target=void undo()
