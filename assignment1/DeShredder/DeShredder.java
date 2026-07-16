@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 
- * Version: 15/7
+ * Version: 16/7
  */
 
 import ecs100.*;
@@ -196,9 +196,10 @@ public class DeShredder {
             int toPosition = getColumn(x);     // the index to move the shred to (may be off the end)
             // perform the correct action, depending on the from/to strips/positions
             /*# YOUR CODE HERE */
-            if (toStrip == workingStrip) { // anything to working strip
+            if (toStrip == workingStrip && (fromStrip == allShreds && fromPosition < allShreds.size() ||
+            fromStrip == workingStrip && fromPosition < workingStrip.size() || completedStrips.contains(fromStrip))) { // anything to working strip
                 addToWorkingStrip(fromPosition, toPosition, fromStrip);
-            } else if (fromStrip == workingStrip && toStrip == allShreds) { // add working shred to all shreds
+            } else if (fromStrip == workingStrip && toStrip == allShreds && fromPosition < workingStrip.size()) { // add working shred to all shreds
                 addToAllShreds(fromPosition, toPosition);
             } else if (completedStrips.contains(fromStrip) && completedStrips.contains(toStrip)
             && fromStrip != toStrip) { // rearrange completed strips
@@ -225,10 +226,10 @@ public class DeShredder {
      */
     public void addToWorkingStrip(int fromPosition, int toPosition, List<Shred> fromStrip) {
         Shred memory = null;
-        if (fromStrip == allShreds) { // remove shred from allShreds
+        if (fromStrip == allShreds && fromPosition <= allShreds.size() && !allShreds.isEmpty()) { // remove shred from allShreds
             memory = allShreds.get(fromPosition);
             allShreds.remove(fromPosition);
-        } else if (fromStrip == workingStrip) { // remove shred from workingStrip
+        } else if (fromStrip == workingStrip && fromPosition <= workingStrip.size() && !workingStrip.isEmpty()) { // remove shred from workingStrip
             memory = workingStrip.get(fromPosition);
             workingStrip.remove(fromPosition);
         } else if (completedStrips.contains(fromStrip) && workingStrip.isEmpty()) { // put all shreds from group in completed strip into working strip
@@ -249,6 +250,7 @@ public class DeShredder {
         completedStrips.remove(fromStrip);
         completedStrips.add(toPlace, fromStrip);
     }
+    
     //=============================================================================
     // Completed for you. Do not change.
     // loadImage and saveImage may be useful for the challenge.

@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Jul 16 21:06:40 NZST 2026
+#Fri Jul 17 00:00:09 NZST 2026
 comment0.target=DeShredder
 comment0.text=\r\n DeShredder allows a user to sort fragments of a shredded document ("shreds") into strips, and\r\n then sort the strips into the original document.\r\n The program shows\r\n   - a list of all the shreds along the top of the window, \r\n   - the working strip (which the user is constructing) just below it.\r\n   - the list of completed strips below the working strip.\r\n The "rotate" button moves the first shred on the list to the end of the list to let the\r\n  user see the shreds that have disappeared over the edge of the window.\r\n The "shuffle" button reorders the shreds in the list randomly.\r\n The user can use the mouse to drag shreds between the list at the top and the working strip,\r\n  and move shreds around in the working strip to get them in order.\r\n When the user has the working strip complete, they can move\r\n  the working strip down into the list of completed strips, and reorder the completed strips.\r\n\r\n
 comment1.target=void setupGUI()
