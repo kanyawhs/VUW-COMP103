@@ -104,7 +104,7 @@ public class DeShredder {
         completedStrips.clear();
 
         /* adds new shreds from selected folder */
-        for (int i = 1; i < count; i++) {
+        for (int i = 1; i <= count; i++) {
             Shred temp = new Shred(dir, i);
             allShreds.add(temp);
         }
@@ -196,16 +196,14 @@ public class DeShredder {
             int toPosition = getColumn(x);     // the index to move the shred to (may be off the end)
             // perform the correct action, depending on the from/to strips/positions
             /*# YOUR CODE HERE */
-            if (toStrip == workingStrip && fromStrip == allShreds) { // all shreds to working strip
+            if (toStrip == workingStrip) { // anything to working strip
                 addToWorkingStrip(fromPosition, toPosition, fromStrip);
-            } else if (toStrip == allShreds && fromStrip == workingStrip) { // working strip to all shreds
+            } else if (fromStrip == workingStrip && toStrip == allShreds) { // add working shred to all shreds
                 addToAllShreds(fromPosition, toPosition);
-            } else if (toStrip == workingStrip && fromStrip == workingStrip) { // moving around working strip
-                addToWorkingStrip(fromPosition, toPosition, fromStrip);
-            } else if (completedStrips.contains(toStrip) && completedStrips.contains(fromStrip)) {
+            } else if (completedStrips.contains(fromStrip) && completedStrips.contains(toStrip)
+            && fromStrip != toStrip) { // rearrange completed strips
                 arrangeCompletedStrips(fromStrip, toStrip);
             }
-
             display();
         }
     }
@@ -233,8 +231,11 @@ public class DeShredder {
         } else if (fromStrip == workingStrip) { // remove shred from workingStrip
             memory = workingStrip.get(fromPosition);
             workingStrip.remove(fromPosition);
-        } else if (completedStrips.contains(fromStrip) && workingStrip.isEmpty()) {
-
+        } else if (completedStrips.contains(fromStrip) && workingStrip.isEmpty()) { // put all shreds from group in completed strip into working strip
+            List<Shred> completedMemory = fromStrip;
+            completedStrips.remove(fromStrip);
+            workingStrip = completedMemory;
+            return; // doesn't mix with following single-shred placement
         }
 
         /* place shred in working strip */
@@ -244,10 +245,9 @@ public class DeShredder {
     }
 
     public void arrangeCompletedStrips(List<Shred> toStrip, List<Shred> fromStrip) {
-        List<List<Shred>> memory = null;
-        memory.add(completedStrips.get(completedStrips.indexOf(fromStrip))); // some kind of issue........
-        completedStrips.remove(completedStrips.indexOf(fromStrip));
-        completedStrips.add(completedStrips.indexOf(toStrip), memory.get(0));
+        int toPlace = completedStrips.indexOf(toStrip); // memorize original "toStrip" place so that it isn't moved when fromStrip is removed
+        completedStrips.remove(fromStrip);
+        completedStrips.add(toPlace, fromStrip);
     }
     //=============================================================================
     // Completed for you. Do not change.
