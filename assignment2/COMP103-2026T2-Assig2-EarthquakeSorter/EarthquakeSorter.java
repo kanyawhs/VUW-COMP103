@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 20/7
+ * Version: 21/7
  */
 
 import ecs100.*;
@@ -46,7 +46,7 @@ public class EarthquakeSorter{
                 float magnitude = read.nextFloat();
                 float depth = read.nextFloat();
                 String region = read.next();
-                
+
                 Earthquake temp = new Earthquake(ID, date, time, longitude, latitude, magnitude, depth, region);
                 earthquakes.add(temp);
                 temp = null;
@@ -63,37 +63,42 @@ public class EarthquakeSorter{
         UI.clearText();
         UI.println("Earthquakes sorted by ID");
         /*# YOUR CODE HERE */
-        for (int i = 1; i < earthquakes.size(); i++) {
-            int comparison = earthquakes.get(i-1).compareTo(earthquakes.get(i));
-            if (comparison < 0) {
-                Earthquake memory = earthquakes.get(i-1);
-                earthquakes.set(i-1, earthquakes.get(i));
-                earthquakes.set(i, memory);
-            }
-            // this does not work because it only checks neighbours...
-        }
-        
+        Collections.sort(earthquakes);
+
         for (Earthquake e : this.earthquakes){
             UI.println(e);
         }
         UI.println("------------------------");
     }
 
-
     /**
      * Sorts the earthquakes by magnitude, largest first
+     * 
+     * Plan:
+     * - get magnitude
+     * - sort it??
      */
     public void sortByMagnitude(){
         UI.clearText();
         UI.println("Earthquakes sorted by magnitude (largest first)");
         /*# YOUR CODE HERE */
-
+        /*
+         * below will sort through every earthquake once started (namely on the 1st and 2nd items)
+         */
+        Collections.sort(earthquakes, (Earthquake o, Earthquake e)->{
+            return true;
+        });
+        
+        for (int i = 1; i < earthquakes.size(); i++) {
+            if (earthquakes.get(i-1).getMagnitude() < earthquakes.get(i).getMagnitude()) {
+                
+            }
+        }
         for (Earthquake e : this.earthquakes){
             UI.println(e);
         }
         UI.println("------------------------");
     }
-
 
     /**
      * Sorts the list of earthquakes according to the date and time that they occurred.
