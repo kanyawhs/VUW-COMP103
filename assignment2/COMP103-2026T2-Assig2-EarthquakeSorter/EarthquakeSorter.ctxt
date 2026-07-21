@@ -1,0 +1,25 @@
+#BlueJ class context
+#Mon Jul 20 19:16:58 NZST 2026
+comment0.target=EarthquakeSorter
+comment0.text=\r\n EarthquakeSorter\r\n Sorts data about a collection of 4335 NZ earthquakes from May 2016 to May 2017\r\n Each line of the file "earthquake-data.txt" has a description of one earthquake\:\r\n   ID time longitude latitude magnitude depth region\r\n Data is from http\://quakesearch.geonet.org.nz/\r\n  Note the earthquakes' ID have been modified to suit this assignment.\r\n  Note bigearthquake-data.txt has just the 421 earthquakes of magnitude 4.0 and above\r\n   which may be useful for testing, since it is not as big as the full file.\r\n   \r\n
+comment1.params=filename
+comment1.target=void loadData(java.lang.String)
+comment1.text=\r\n Load data from the specified data file into the earthquakes field\:\r\n
+comment10.target=void sortByProximity()
+comment2.target=void sortByID()
+comment2.text=\r\n Sorts the earthquakes by ID\r\n
+comment3.target=void sortByMagnitude()
+comment3.text=\r\n Sorts the earthquakes by magnitude, largest first\r\n
+comment4.target=void sortByTime()
+comment4.text=\r\n Sorts the list of earthquakes according to the date and time that they occurred.\r\n
+comment5.target=void sortByRegion()
+comment5.text=\r\n Sorts the list of earthquakes according to region. If two earthquakes have the same\r\n   region, they should be sorted by magnitude (highest first) and then depth (more shallow first)\r\n
+comment6.params=longitude latitude
+comment6.target=void sortByProximity(double, double)
+comment6.text=\r\n Sorts the earthquakes by proximity to a specified location\r\n If two earthquakes are at the same distance, sort them by\r\n decreasing magnitude. Print each earthquake with its distance\r\n to the location.     \r\n
+comment7.target=void setupGUI()
+comment7.text=\r\n Add the buttons\r\n
+comment8.params=arguments
+comment8.target=void main(java.lang.String[])
+comment9.target=void loadData()
+numComments=11
