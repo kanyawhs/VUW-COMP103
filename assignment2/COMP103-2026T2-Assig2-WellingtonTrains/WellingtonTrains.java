@@ -3,9 +3,10 @@
 // You may not distribute it in any other way without permission.
 
 /* Code for COMP103 - 2026T2, Assignment 2
- * Name:
- * Username:
+ * Name: Kanya Farley
+ * Username: farleykany
  * ID:
+ * Version: 22/7
  */
 
 import ecs100.*;
@@ -25,13 +26,13 @@ import java.nio.file.*;
 public class WellingtonTrains{
     //Fields to store the collections of Stations and Lines
     /*# YOUR CODE HERE */
+    Map<Integer, Station> stations = new HashMap<Integer, Station>(); // key is zone, value is station
 
     // Fields for the suggested GUI.
     private String stationName;        // station to get info about, or to start journey from
     private String lineName;           // train line to get info about.
     private String destinationName;
     private int startTime = 0;         // time for enquiring about
-
 
     /**
      * main method:  load the data and set up the user interface
@@ -53,7 +54,7 @@ public class WellingtonTrains{
         loadTrainLineData();
         UI.println("Loaded Train Lines");
         // The following is only needed for the Completion and Challenge
-        //loadTrainServicesData();
+        loadTrainServicesData();
         UI.println("Loaded Train Services");
         loadedData = true;
     }
@@ -70,12 +71,12 @@ public class WellingtonTrains{
         UI.addTextField("Train Line",       (String name) -> {this.lineName=name;});
         UI.addTextField("Destination",      (String name) -> {this.destinationName=name;});
         UI.addTextField("Time (24hr)",      (String time) ->
-            {try{this.startTime=Integer.parseInt(time);}catch(Exception e){UI.println("Enter four digits");}});
+                {try{this.startTime=Integer.parseInt(time);}catch(Exception e){UI.println("Enter four digits");}});
         UI.addButton("Lines of Station",    () -> {listLinesOfStation(this.stationName);});
         UI.addButton("Stations on Line",    () -> {listStationsOnLine(this.lineName);});
         UI.addButton("Stations connected?", () -> {checkConnected(this.stationName, this.destinationName);});
-        UI.addButton("Next Services",       () -> {findNextServices(this.stationName, this.startTime);});
-        UI.addButton("Find Trip",           () -> {findTrip(this.stationName, this.destinationName, this.startTime);});
+        //UI.addButton("Next Services",       () -> {findNextServices(this.stationName, this.startTime);});
+        //UI.addButton("Find Trip",           () -> {findTrip(this.stationName, this.destinationName, this.startTime);});
 
         UI.addButton("Quit", UI::quit);
         UI.setMouseListener(this::doMouse);
@@ -106,14 +107,60 @@ public class WellingtonTrains{
     // Methods for loading data and answering queries
 
     /*# YOUR CODE HERE */
-    public void loadStationData(String filename) {
-        Scanner sc = new Scanner(filename);
+    /* stations */
+    public void loadStationData() {
         try {
-            
+            //File datafile = new File (Files.readString(Path.of("data/stations.data")));
+            File datafile = new File ("data/stations.data");
+            Scanner sc = new Scanner(datafile);
+            int count = 0;
+            //while (sc.hasNextLine()) {
+                while (sc.hasNext()) {
+                
+                String name = sc.next();
+                int zone = sc.nextInt();
+                double x = sc.nextDouble();
+                double y = sc.nextDouble();
+                Station temp = new Station(name, zone, x, y);
+                stations.put(zone, temp);
+                UI.println(name);
+                temp = null;
+            }
         } catch (IOException e){UI.println("Error: File not found");}
     }
-    
-    public void loadTrainLineData() {
-        
+
+    public void listAllStations() {
+
     }
+
+    public void listStationsByName() {
+
+    }
+
+    public void listLinesOfStation(String stationName) {
+
+    }
+
+    /* train lines */
+    public void loadTrainLineData() {
+
+    }
+
+    public void listStationsOnLine(String lineName) {
+
+    }
+
+    public void listAllTrainLines() {
+
+    }
+
+    public boolean checkConnected(String stationName, String destinationName) {
+        return false;
+    }
+
+    
+    public void loadTrainServicesData() {
+
+    }
+
 }

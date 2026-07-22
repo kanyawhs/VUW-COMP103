@@ -1,18 +1,28 @@
 #BlueJ class context
-#Mon Jul 20 19:18:40 NZST 2026
+#Wed Jul 22 12:20:12 NZST 2026
 comment0.target=WellingtonTrains
 comment0.text=\r\n WellingtonTrains\r\n A program to answer queries about Wellington train lines and timetables for\r\n  the train services on those train lines.\r\n\r\n See the assignment page for a description of the program and what you have to do.\r\n
 comment1.params=args
 comment1.target=void main(java.lang.String[])
 comment1.text=\r\n main method\:  load the data and set up the user interface\r\n
+comment10.params=lineName
+comment10.target=void listStationsOnLine(java.lang.String)
+comment11.target=void listAllTrainLines()
+comment12.params=stationName destinationName
+comment12.target=boolean checkConnected(java.lang.String, java.lang.String)
+comment13.target=void loadTrainServicesData()
 comment2.target=void loadData()
 comment2.text=\r\n Load data files\r\n
 comment3.target=void setupGUI()
 comment3.text=\r\n User interface has buttons for the queries and text fields to enter stations and train line\r\n You will need to implement the methods here.\r\n
 comment4.params=action x y
 comment4.target=void doMouse(java.lang.String, double, double)
-comment5.params=filename
-comment5.target=void loadStationData(java.lang.String)
-comment5.text=\# YOUR CODE HERE
-comment6.target=void loadTrainLineData()
-numComments=7
+comment5.target=void loadStationData()
+comment5.text=stations
+comment6.target=void listAllStations()
+comment7.target=void listStationsByName()
+comment8.params=stationName
+comment8.target=void listLinesOfStation(java.lang.String)
+comment9.target=void loadTrainLineData()
+comment9.text=train lines
+numComments=14
