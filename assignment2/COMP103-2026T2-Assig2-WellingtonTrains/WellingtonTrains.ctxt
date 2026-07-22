@@ -1,5 +1,5 @@
 #BlueJ class context
-#Wed Jul 22 12:20:12 NZST 2026
+#Thu Jul 23 09:39:02 NZST 2026
 comment0.target=WellingtonTrains
 comment0.text=\r\n WellingtonTrains\r\n A program to answer queries about Wellington train lines and timetables for\r\n  the train services on those train lines.\r\n\r\n See the assignment page for a description of the program and what you have to do.\r\n
 comment1.params=args

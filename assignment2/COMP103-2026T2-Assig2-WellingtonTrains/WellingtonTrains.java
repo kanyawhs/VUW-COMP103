@@ -26,7 +26,7 @@ import java.nio.file.*;
 public class WellingtonTrains{
     //Fields to store the collections of Stations and Lines
     /*# YOUR CODE HERE */
-    Map<Integer, Station> stations = new HashMap<Integer, Station>(); // key is zone, value is station
+    Map<String, Station> stations = new HashMap<String, Station>(); // key is name, value is station
 
     // Fields for the suggested GUI.
     private String stationName;        // station to get info about, or to start journey from
@@ -109,20 +109,16 @@ public class WellingtonTrains{
     /*# YOUR CODE HERE */
     /* stations */
     public void loadStationData() {
+        File stationData = new File ("data/stations.data");
         try {
-            //File datafile = new File (Files.readString(Path.of("data/stations.data")));
-            File datafile = new File ("data/stations.data");
-            Scanner sc = new Scanner(datafile);
-            int count = 0;
-            //while (sc.hasNextLine()) {
-                while (sc.hasNext()) {
-                
+            Scanner sc = new Scanner(stationData);
+            while (sc.hasNext()) {
                 String name = sc.next();
                 int zone = sc.nextInt();
                 double x = sc.nextDouble();
                 double y = sc.nextDouble();
                 Station temp = new Station(name, zone, x, y);
-                stations.put(zone, temp);
+                stations.put(name, temp);
                 UI.println(name);
                 temp = null;
             }
@@ -143,7 +139,30 @@ public class WellingtonTrains{
 
     /* train lines */
     public void loadTrainLineData() {
-
+        File trainData = new File ("data/train-lines.data");
+        try {
+            Scanner main = new Scanner(trainData);
+            while (main.hasNext()) {
+                String name = main.next();
+                
+                File trainLineStations = new File("data/" + name + "-stations.data");
+                Scanner stationSc = new Scanner(trainLineStations);
+                List<Station> lineStations = new ArrayList<Station>();
+                while (stationSc.hasNext()) {
+                    String stationToFind = stationSc.next();
+                    if (stations.containsKey(stationToFind)) {
+                        lineStations.add(stations.get(stationToFind));
+                    }
+                }
+                
+                File trainLineServices = new File("data/" + name + "-services.data");
+                Scanner serviceSc = new Scanner(trainLineServices);
+                List<TrainService> trainServices = new ArrayList<TrainService>();
+                while (serviceSc.hasNext()) {
+                    //TrainService newService = 
+                }
+            }
+        } catch (IOException e){UI.println("Error: File not found");}
     }
 
     public void listStationsOnLine(String lineName) {
