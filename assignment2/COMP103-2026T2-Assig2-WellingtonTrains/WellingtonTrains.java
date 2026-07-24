@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 22/7
+ * Version: 24/7
  */
 
 import ecs100.*;
@@ -27,6 +27,7 @@ public class WellingtonTrains{
     //Fields to store the collections of Stations and Lines
     /*# YOUR CODE HERE */
     Map<String, Station> stations = new HashMap<String, Station>(); // key is name, value is station
+    Map<String, TrainLine> trainLines = new HashMap<String, TrainLine>();
 
     // Fields for the suggested GUI.
     private String stationName;        // station to get info about, or to start journey from
@@ -119,22 +120,26 @@ public class WellingtonTrains{
                 double y = sc.nextDouble();
                 Station temp = new Station(name, zone, x, y);
                 stations.put(name, temp);
-                UI.println(name);
-                temp = null;
+                //UI.println(name); // debug
             }
         } catch (IOException e){UI.println("Error: File not found");}
     }
-
+    
     public void listAllStations() {
-
+        UI.println("All stations in region:");
+        for (String listedStation: stations.keySet()) {
+            UI.println(listedStation);
+        }
     }
 
     public void listStationsByName() {
-
+        UI.println("All stations (in alphabetical order):");
+        // will do later... struggled with this in other assignment program
     }
 
     public void listLinesOfStation(String stationName) {
-
+        UI.println("Train lines that go through station " + stationName);
+        
     }
 
     /* train lines */
@@ -144,33 +149,38 @@ public class WellingtonTrains{
             Scanner main = new Scanner(trainData);
             while (main.hasNext()) {
                 String name = main.next();
+                TrainLine line = new TrainLine(name);
                 
                 File trainLineStations = new File("data/" + name + "-stations.data");
                 Scanner stationSc = new Scanner(trainLineStations);
-                List<Station> lineStations = new ArrayList<Station>();
                 while (stationSc.hasNext()) {
-                    String stationToFind = stationSc.next();
-                    if (stations.containsKey(stationToFind)) {
-                        lineStations.add(stations.get(stationToFind));
+                    String toFetch = stationSc.next();
+                    if (stations.containsKey(toFetch)) {
+                        line.addStation(stations.get(toFetch)); // adds station to train line
+                        stations.get(toFetch).addTrainLine(line); // adds same train line to same station
                     }
                 }
                 
-                File trainLineServices = new File("data/" + name + "-services.data");
-                Scanner serviceSc = new Scanner(trainLineServices);
-                List<TrainService> trainServices = new ArrayList<TrainService>();
-                while (serviceSc.hasNext()) {
-                    //TrainService newService = 
-                }
+                //UI.println(name); // debug
             }
         } catch (IOException e){UI.println("Error: File not found");}
     }
 
-    public void listStationsOnLine(String lineName) {
-
+    public void listAllTrainLines() { // NOT WORKING!!!
+        UI.println("All train lines in region:");
+        for (String listedLine: trainLines.keySet()) {
+            UI.println(listedLine);
+        }
     }
-
-    public void listAllTrainLines() {
-
+    
+    public void listStationsOnLine(String lineName) {
+        UI.println("Stations on line " + lineName + ":");
+        for (Station station: stations.values()) {
+            station.getTrainLines();
+            /*if (toCheck.contains(lineName)) {
+                UI.println(station);
+            }*/
+        }
     }
 
     public boolean checkConnected(String stationName, String destinationName) {
