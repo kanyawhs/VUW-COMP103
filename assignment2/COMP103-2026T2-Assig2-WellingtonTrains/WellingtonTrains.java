@@ -2,11 +2,15 @@
 // You are granted permission to use it to construct your answer to a COMP103 assignment.
 // You may not distribute it in any other way without permission.
 
+/**
+ * Issue: when listing lines of station or station of lines, they do not actually contain any?? only in methods
+ */
+
 /* Code for COMP103 - 2026T2, Assignment 2
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 24/7
+ * Version: 25/7
  */
 
 import ecs100.*;
@@ -138,8 +142,13 @@ public class WellingtonTrains{
     }
 
     public void listLinesOfStation(String stationName) {
-        UI.println("Train lines that go through station " + stationName);
-        
+        UI.println("Train lines that go through station " + stationName + ":");
+       for (TrainLine line: trainLines.values()) {
+           UI.println(line.getStations()); // why does line have no stations??
+           if (line.getStations().contains(stationName)) {
+               //
+           }
+       }
     }
 
     /* train lines */
@@ -160,8 +169,6 @@ public class WellingtonTrains{
                         stations.get(toFetch).addTrainLine(line); // adds same train line to same station
                     }
                 }
-                
-                //UI.println(name); // debug
             }
         } catch (IOException e){UI.println("Error: File not found");}
     }
@@ -176,10 +183,9 @@ public class WellingtonTrains{
     public void listStationsOnLine(String lineName) {
         UI.println("Stations on line " + lineName + ":");
         for (Station station: stations.values()) {
-            station.getTrainLines();
-            /*if (toCheck.contains(lineName)) {
+            if (station.getTrainLines().contains(lineName)) {
                 UI.println(station);
-            }*/
+            }
         }
     }
 
