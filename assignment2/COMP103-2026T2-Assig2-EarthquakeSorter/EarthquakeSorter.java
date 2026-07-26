@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 21/7
+ * Version: 26/7
  */
 
 import ecs100.*;
@@ -82,18 +82,30 @@ public class EarthquakeSorter{
         UI.clearText();
         UI.println("Earthquakes sorted by magnitude (largest first)");
         /*# YOUR CODE HERE */
-        /*
-         * below will sort through every earthquake once started (namely on the 1st and 2nd items)
-         */
-        Collections.sort(earthquakes, (Earthquake o, Earthquake e)->{
-            return true;
-        });
-        
-        for (int i = 1; i < earthquakes.size(); i++) {
-            if (earthquakes.get(i-1).getMagnitude() < earthquakes.get(i).getMagnitude()) {
-                
+        // agh doesn't work
+        List<Earthquake> temp = new ArrayList<>();
+        temp.add(earthquakes.get(0));
+        Earthquake smallest = null;
+        for (Earthquake earthquake: earthquakes) {
+            for (int i = 0; i < temp.size(); i++) {
+                if (earthquake.getMagnitude() > temp.get(i).getMagnitude()) {
+                    if (i < 1) {
+                        temp.add(0, earthquake);
+                    } else {
+                        temp.add(i-1, earthquake);
+                    }
+                } else {
+                    smallest = earthquake;
+                }
             }
         }
+        temp.add(smallest);
+        earthquakes.clear();
+        for (Earthquake toAdd: temp) {
+            earthquakes.add(toAdd);
+        }
+        
+        
         for (Earthquake e : this.earthquakes){
             UI.println(e);
         }
