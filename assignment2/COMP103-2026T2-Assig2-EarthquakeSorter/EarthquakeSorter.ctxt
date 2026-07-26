@@ -1,5 +1,5 @@
 #BlueJ class context
-#Sun Jul 26 20:02:06 NZST 2026
+#Sun Jul 26 20:04:29 NZST 2026
 comment0.target=EarthquakeSorter
 comment0.text=\r\n EarthquakeSorter\r\n Sorts data about a collection of 4335 NZ earthquakes from May 2016 to May 2017\r\n Each line of the file "earthquake-data.txt" has a description of one earthquake\:\r\n   ID time longitude latitude magnitude depth region\r\n Data is from http\://quakesearch.geonet.org.nz/\r\n  Note the earthquakes' ID have been modified to suit this assignment.\r\n  Note bigearthquake-data.txt has just the 421 earthquakes of magnitude 4.0 and above\r\n   which may be useful for testing, since it is not as big as the full file.\r\n   \r\n
 comment1.params=filename
