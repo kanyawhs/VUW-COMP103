@@ -82,8 +82,14 @@ public class EarthquakeSorter{
         UI.clearText();
         UI.println("Earthquakes sorted by magnitude (largest first)");
         /*# YOUR CODE HERE */
-        // i hate this shit
-        
+        earthquakes.sort((e1, e2) -> {
+            Earthquake earthquakeA = earthquakes.get(e1);
+            Earthquake earthquakeB = earthquakes.get(e2);
+            double magnitude1 = earthquakeA.getMagnitude();
+            double magnitude2 = earthquakeB.getMagnitude();
+            double result = magnitude1 - magnitude2;
+            return result;
+        });
 
         for (Earthquake e : this.earthquakes){
             UI.println(e);
@@ -98,7 +104,30 @@ public class EarthquakeSorter{
         UI.clearText();
         UI.println("Earthquakes sorted by time");
         /*# YOUR CODE HERE */
-
+        earthquakes.sort((e1, e2) -> {
+            Earthquake earthquakeA = earthquakes.get(e1);
+            Earthquake earthquakeB = earthquakes.get(e2);
+            int year1 = earthquakeA.getYear();
+            int year2 = earthquakeB.getYear();
+            if (year1 != year2) {
+                return year1-year2;
+            } else { // if years are same
+                int month1 = earthquakeA.getMonth();
+                int month2 = earthquakeA.getMonth();
+                if (month1 != month2) { // if year and month and day is the same
+                    return month1-month2;
+                } else {
+                    int day1 = earthquakeA.getDay();
+                    int day2 = earthquakeA.getDay();
+                    if (day1 != day2) {
+                        return day1-day2;
+                    } else {
+                        
+                    }
+                }
+            }
+        });
+        
         for (Earthquake e : this.earthquakes){
             UI.println(e);
         }
