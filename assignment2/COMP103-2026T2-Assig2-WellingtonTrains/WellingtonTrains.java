@@ -124,7 +124,6 @@ public class WellingtonTrains{
                 double y = sc.nextDouble();
                 Station temp = new Station(name, zone, x, y);
                 stations.put(name, temp);
-                //UI.println(name); // debug
             }
         } catch (IOException e){UI.println("Error: File not found");}
     }
@@ -138,7 +137,7 @@ public class WellingtonTrains{
 
     public void listStationsByName() {
         UI.println("All stations (in alphabetical order):");
-
+        // use .compareTo()
     }
 
     public void listLinesOfStation(String stationName) {
@@ -146,8 +145,8 @@ public class WellingtonTrains{
             UI.println("Please enter an existing station");
         } else {
             UI.println("Train lines that go through station " + stationName + ":");
-            for (int i = 0; i < stations.get(stationName).getTrainLines().size(); i++) {
-                //UI.println(stations.get(stationName).getTrainLines().get(i));
+            for (TrainLine line: stations.get(stationName).getTrainLines()) {
+                UI.println(line.getName());
             }
         }
     }
@@ -196,6 +195,12 @@ public class WellingtonTrains{
     }
 
     public boolean checkConnected(String stationName, String destinationName) {
+        for (String line: trainLines.keySet()) {
+            if (line.equals(stationName + "_" + destinationName)) {
+                UI.println("Stations connected on " + line);
+                return true;
+            }
+        }
         return false;
     }
 

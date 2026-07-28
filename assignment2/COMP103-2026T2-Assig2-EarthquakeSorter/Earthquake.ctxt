@@ -1,5 +1,5 @@
 #BlueJ class context
-#Mon Jul 20 19:12:20 NZST 2026
+#Tue Jul 28 15:49:18 NZST 2026
 comment0.target=Earthquake
 comment0.text=\r\n Earthquake\r\n Describes a single earthquake, with information from the earthquake data\r\n available from http\://quakesearch.geonet.org.nz/\r\n Has methods for \r\n - computing the distance between two earthquakes, \r\n - computing the distance between this earthquake and a given location,\r\n - getting an integer representation of the year, month or day.\r\n
 comment1.params=ID date time longitude latitude magnitude depth region
