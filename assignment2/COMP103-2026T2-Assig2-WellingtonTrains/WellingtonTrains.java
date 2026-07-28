@@ -10,7 +10,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 25/7
+ * Version: 28/7
  */
 
 import ecs100.*;
@@ -128,7 +128,7 @@ public class WellingtonTrains{
             }
         } catch (IOException e){UI.println("Error: File not found");}
     }
-    
+
     public void listAllStations() {
         UI.println("All stations in region:");
         for (String listedStation: stations.keySet()) {
@@ -138,28 +138,31 @@ public class WellingtonTrains{
 
     public void listStationsByName() {
         UI.println("All stations (in alphabetical order):");
-        // will do later... struggled with this in other assignment program
+
     }
 
     public void listLinesOfStation(String stationName) {
-        UI.println("Train lines that go through station " + stationName + ":");
-       for (TrainLine line: trainLines.values()) {
-           UI.println(line.getStations()); // why does line have no stations??
-           if (line.getStations().contains(stationName)) {
-               //
-           }
-       }
+        if (!stations.keySet().contains(stationName)) {
+            UI.println("Please enter an existing station");
+        } else {
+            UI.println("Train lines that go through station " + stationName + ":");
+            for (int i = 0; i < stations.get(stationName).getTrainLines().size(); i++) {
+                //UI.println(stations.get(stationName).getTrainLines().get(i));
+            }
+        }
     }
 
     /* train lines */
     public void loadTrainLineData() {
         File trainData = new File ("data/train-lines.data");
+
         try {
             Scanner main = new Scanner(trainData);
             while (main.hasNext()) {
                 String name = main.next();
                 TrainLine line = new TrainLine(name);
-                
+                trainLines.put(name, line);
+
                 File trainLineStations = new File("data/" + name + "-stations.data");
                 Scanner stationSc = new Scanner(trainLineStations);
                 while (stationSc.hasNext()) {
@@ -175,16 +178,19 @@ public class WellingtonTrains{
 
     public void listAllTrainLines() { // NOT WORKING!!!
         UI.println("All train lines in region:");
+        UI.println(trainLines.size());
         for (String listedLine: trainLines.keySet()) {
             UI.println(listedLine);
         }
     }
-    
+
     public void listStationsOnLine(String lineName) {
-        UI.println("Stations on line " + lineName + ":");
-        for (Station station: stations.values()) {
-            if (station.getTrainLines().contains(lineName)) {
-                UI.println(station);
+        if (!trainLines.keySet().contains(lineName)) {
+            UI.println("Please enter an existing train line");
+        } else {
+            UI.println("Stations on line " + lineName + ":");
+            for (int i = 0; i < trainLines.get(lineName).getStations().size(); i++) {
+                UI.println(trainLines.get(lineName).getStations().get(i));
             }
         }
     }
@@ -193,9 +199,6 @@ public class WellingtonTrains{
         return false;
     }
 
-    
     public void loadTrainServicesData() {
-
     }
-
 }

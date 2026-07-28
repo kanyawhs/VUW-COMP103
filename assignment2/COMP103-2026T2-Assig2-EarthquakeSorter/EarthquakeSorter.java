@@ -88,7 +88,7 @@ public class EarthquakeSorter{
             double magnitude1 = earthquakeA.getMagnitude();
             double magnitude2 = earthquakeB.getMagnitude();
             double result = magnitude1 - magnitude2;
-            return result;
+            return(result);
         });
 
         for (Earthquake e : this.earthquakes){
