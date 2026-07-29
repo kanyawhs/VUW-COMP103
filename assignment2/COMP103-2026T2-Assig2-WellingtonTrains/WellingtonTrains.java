@@ -10,7 +10,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 28/7
+ * Version: 30/7
  */
 
 import ecs100.*;
@@ -130,14 +130,17 @@ public class WellingtonTrains{
 
     public void listAllStations() {
         UI.println("All stations in region:");
-        for (String listedStation: stations.keySet()) {
-            UI.println(listedStation);
+        for (Station listedStation: stations.values()) {
+            UI.println(listedStation.toString());
         }
     }
 
     public void listStationsByName() {
         UI.println("All stations (in alphabetical order):");
-        // use .compareTo()
+        Map<String, Station> treeVer = new TreeMap<>(stations);
+        for (String station: treeVer.keySet()) {
+            UI.println(station);
+        }
     }
 
     public void listLinesOfStation(String stationName) {
@@ -178,8 +181,8 @@ public class WellingtonTrains{
     public void listAllTrainLines() { // NOT WORKING!!!
         UI.println("All train lines in region:");
         UI.println(trainLines.size());
-        for (String listedLine: trainLines.keySet()) {
-            UI.println(listedLine);
+        for (TrainLine listedLine: trainLines.values()) {
+            UI.println(listedLine.toString());
         }
     }
 
@@ -197,7 +200,7 @@ public class WellingtonTrains{
     public boolean checkConnected(String stationName, String destinationName) {
         for (String line: trainLines.keySet()) {
             if (line.equals(stationName + "_" + destinationName)) {
-                UI.println("Stations connected on " + line);
+                UI.println("Stations are connected on " + line);
                 return true;
             }
         }
