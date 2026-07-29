@@ -1,15 +1,18 @@
 #BlueJ class context
-#Thu Jul 30 09:14:12 NZST 2026
+#Thu Jul 30 09:22:07 NZST 2026
 comment0.target=WellingtonTrains
 comment0.text=\r\n WellingtonTrains\r\n A program to answer queries about Wellington train lines and timetables for\r\n  the train services on those train lines.\r\n\r\n See the assignment page for a description of the program and what you have to do.\r\n
 comment1.params=args
 comment1.target=void main(java.lang.String[])
 comment1.text=\r\n main method\:  load the data and set up the user interface\r\n
 comment10.target=void listAllTrainLines()
+comment10.text=\r\n Lists train lines in trainLines HashMap\r\n
 comment11.params=lineName
 comment11.target=void listStationsOnLine(java.lang.String)
+comment11.text=\r\n Checks if train line exists, then lists its respective stations\r\n
 comment12.params=stationName destinationName
 comment12.target=boolean checkConnected(java.lang.String, java.lang.String)
+comment12.text=\r\n Takes given station 1 and station 2 @param\r\n Checks through all train lines to find if there's a connected train line\r\n
 comment13.target=void loadTrainServicesData()
 comment2.target=void loadData()
 comment2.text=\r\n Load data files\r\n
@@ -18,11 +21,14 @@ comment3.text=\r\n User interface has buttons for the queries and text fields to
 comment4.params=action x y
 comment4.target=void doMouse(java.lang.String, double, double)
 comment5.target=void loadStationData()
-comment5.text=stations
+comment5.text=\r\n Checks for each station parameter in file then creates a station and adds to map\r\n
 comment6.target=void listAllStations()
+comment6.text=\r\n Lists stations in station HashMap as String\r\n
 comment7.target=void listStationsByName()
+comment7.text=\r\n Converts current stations HashMap to TreeMap for alphabetical order then prints\r\n
 comment8.params=stationName
 comment8.target=void listLinesOfStation(java.lang.String)
+comment8.text=\r\n Checks if stationName is in list of stations, fetches all of its train lines\r\n
 comment9.target=void loadTrainLineData()
-comment9.text=train lines
+comment9.text=\r\n Checks file for train line name, then loads file containing its stations\r\n
 numComments=14

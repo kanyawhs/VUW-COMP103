@@ -113,6 +113,9 @@ public class WellingtonTrains{
 
     /*# YOUR CODE HERE */
     /* stations */
+    /**
+     * Checks for each station parameter in file then creates a station and adds to map
+     */
     public void loadStationData() {
         File stationData = new File ("data/stations.data");
         try {
@@ -127,14 +130,20 @@ public class WellingtonTrains{
             }
         } catch (IOException e){UI.println("Error: File not found");}
     }
-
+    
+    /**
+     * Lists stations in station HashMap as String
+     */
     public void listAllStations() {
         UI.println("All stations in region:");
         for (Station listedStation: stations.values()) {
             UI.println(listedStation.toString());
         }
     }
-
+    
+    /**
+     * Converts current stations HashMap to TreeMap for alphabetical order then prints
+     */
     public void listStationsByName() {
         UI.println("All stations (in alphabetical order):");
         Map<String, Station> treeVer = new TreeMap<>(stations);
@@ -142,7 +151,10 @@ public class WellingtonTrains{
             UI.println(station);
         }
     }
-
+    
+    /**
+     * Checks if stationName is in list of stations, fetches all of its train lines
+     */
     public void listLinesOfStation(String stationName) {
         if (!stations.keySet().contains(stationName)) {
             UI.println("Please enter an existing station");
@@ -155,6 +167,9 @@ public class WellingtonTrains{
     }
 
     /* train lines */
+    /**
+     * Checks file for train line name, then loads file containing its stations
+     */
     public void loadTrainLineData() {
         File trainData = new File ("data/train-lines.data");
 
@@ -177,15 +192,21 @@ public class WellingtonTrains{
             }
         } catch (IOException e){UI.println("Error: File not found");}
     }
-
-    public void listAllTrainLines() { // NOT WORKING!!!
+    
+    /**
+     * Lists train lines in trainLines HashMap
+     */
+    public void listAllTrainLines() {
         UI.println("All train lines in region:");
         UI.println(trainLines.size());
         for (TrainLine listedLine: trainLines.values()) {
             UI.println(listedLine.toString());
         }
     }
-
+    
+    /**
+     * Checks if train line exists, then lists its respective stations
+     */
     public void listStationsOnLine(String lineName) {
         if (!trainLines.keySet().contains(lineName)) {
             UI.println("Please enter an existing train line");
@@ -197,11 +218,17 @@ public class WellingtonTrains{
         }
     }
 
+    /**
+     * Takes given station 1 and station 2 @param
+     * Checks through all train lines to find if there's a connected train line
+     */
     public boolean checkConnected(String stationName, String destinationName) {
         for (String line: trainLines.keySet()) {
             if (line.equals(stationName + "_" + destinationName)) {
                 UI.println("Stations are connected on " + line);
                 return true;
+            } else {
+                UI.println("Station is not connected to " + destinationName);
             }
         }
         return false;
