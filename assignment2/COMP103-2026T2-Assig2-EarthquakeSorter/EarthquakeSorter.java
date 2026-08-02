@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 26/7
+ * Version: 2/8
  */
 
 import ecs100.*;
@@ -98,9 +98,13 @@ public class EarthquakeSorter{
         UI.println("Earthquakes sorted by time");
         /*# YOUR CODE HERE */
         earthquakes.sort((e1, e2) -> {
-            int date = Integer.parseInt(e1.getDate());
-            int date2 = Integer.parseInt(e1.getDate());
-            return (date - date2);
+            String line1 = e1.getDate();
+            String[] date1 = line1.split("-");
+            String line2 = e2.getDate();
+            String[] date2 = line2.split("-");
+            int date = Integer.parseInt(String.join(" ", date1));
+            int comparingDate = Integer.parseInt(String.join(" ", date2));
+            return (date - comparingDate);
         });
         
         for (Earthquake e : this.earthquakes){

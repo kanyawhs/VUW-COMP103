@@ -10,7 +10,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 30/7
+ * Version: 2/8
  */
 
 import ecs100.*;
@@ -130,7 +130,7 @@ public class WellingtonTrains{
             }
         } catch (IOException e){UI.println("Error: File not found");}
     }
-    
+
     /**
      * Lists stations in station HashMap as String
      */
@@ -140,7 +140,7 @@ public class WellingtonTrains{
             UI.println(listedStation.toString());
         }
     }
-    
+
     /**
      * Converts current stations HashMap to TreeMap for alphabetical order then prints
      */
@@ -151,7 +151,7 @@ public class WellingtonTrains{
             UI.println(station);
         }
     }
-    
+
     /**
      * Checks if stationName is in list of stations, fetches all of its train lines
      */
@@ -192,7 +192,7 @@ public class WellingtonTrains{
             }
         } catch (IOException e){UI.println("Error: File not found");}
     }
-    
+
     /**
      * Lists train lines in trainLines HashMap
      */
@@ -203,7 +203,7 @@ public class WellingtonTrains{
             UI.println(listedLine.toString());
         }
     }
-    
+
     /**
      * Checks if train line exists, then lists its respective stations
      */
@@ -235,5 +235,22 @@ public class WellingtonTrains{
     }
 
     public void loadTrainServicesData() {
+        // file always not found...
+        for (TrainLine listedLine: trainLines.values()) {
+            File serviceData = new File ("data/" + listedLine + "-services.data");
+            TrainService newService = new TrainService(listedLine);
+            try {
+                Scanner sc = new Scanner(serviceData);
+                while (sc.hasNext()) {
+                    int time = sc.nextInt();
+                    newService.addTime(time);
+                }
+                UI.println("Times for " + newService.getTrainID() + ": ");
+                for (int time: newService.getTimes()) {
+                    UI.println(time);
+                }
+            } catch (IOException e) {UI.println("Error: file not found"); }
+
+        }
     }
 }
