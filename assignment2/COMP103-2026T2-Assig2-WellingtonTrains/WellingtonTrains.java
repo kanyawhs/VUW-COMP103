@@ -10,7 +10,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 2/8
+ * Version: 4/8
  */
 
 import ecs100.*;
@@ -236,21 +236,27 @@ public class WellingtonTrains{
 
     public void loadTrainServicesData() {
         // file always not found...
-        for (TrainLine listedLine: trainLines.values()) {
+        for (String listedLine: trainLines.keySet()) {
             File serviceData = new File ("data/" + listedLine + "-services.data");
-            TrainService newService = new TrainService(listedLine);
+            TrainService newService = new TrainService(trainLines.get(listedLine));
             try {
                 Scanner sc = new Scanner(serviceData);
                 while (sc.hasNext()) {
                     int time = sc.nextInt();
                     newService.addTime(time);
                 }
+                /* debugging
                 UI.println("Times for " + newService.getTrainID() + ": ");
                 for (int time: newService.getTimes()) {
                     UI.println(time);
-                }
+                }*/
             } catch (IOException e) {UI.println("Error: file not found"); }
 
         }
+    }
+    
+    public void getStationServices(int time, Station station) {
+        UI.println("Next trips after " + time + " for " + station);
+        
     }
 }
