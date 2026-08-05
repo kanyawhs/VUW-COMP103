@@ -10,7 +10,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 4/8
+ * Version: 5/8
  */
 
 import ecs100.*;
@@ -80,7 +80,7 @@ public class WellingtonTrains{
         UI.addButton("Lines of Station",    () -> {listLinesOfStation(this.stationName);});
         UI.addButton("Stations on Line",    () -> {listStationsOnLine(this.lineName);});
         UI.addButton("Stations connected?", () -> {checkConnected(this.stationName, this.destinationName);});
-        //UI.addButton("Next Services",       () -> {findNextServices(this.stationName, this.startTime);});
+        UI.addButton("Next Services",       () -> {findNextServices(this.stationName, this.startTime);});
         //UI.addButton("Find Trip",           () -> {findTrip(this.stationName, this.destinationName, this.startTime);});
 
         UI.addButton("Quit", UI::quit);
@@ -172,7 +172,6 @@ public class WellingtonTrains{
      */
     public void loadTrainLineData() {
         File trainData = new File ("data/train-lines.data");
-
         try {
             Scanner main = new Scanner(trainData);
             while (main.hasNext()) {
@@ -235,7 +234,6 @@ public class WellingtonTrains{
     }
 
     public void loadTrainServicesData() {
-        // file always not found...
         for (String listedLine: trainLines.keySet()) {
             File serviceData = new File ("data/" + listedLine + "-services.data");
             TrainService newService = new TrainService(trainLines.get(listedLine));
@@ -248,15 +246,32 @@ public class WellingtonTrains{
                 /* debugging
                 UI.println("Times for " + newService.getTrainID() + ": ");
                 for (int time: newService.getTimes()) {
-                    UI.println(time);
+                UI.println(time);
                 }*/
             } catch (IOException e) {UI.println("Error: file not found"); }
 
         }
     }
-    
-    public void getStationServices(int time, Station station) {
-        UI.println("Next trips after " + time + " for " + station);
-        
+
+    public void findNextServices(String stationToGet, int time) {
+        if (!stations.containsKey(stationToGet)) {
+            UI.println("Station name invalid. Please try again.");
+        } else { 
+            UI.println("Next trips after " + time + " for " + stationToGet + ":");
+            Station station = stations.get(stationToGet);
+            for (TrainLine line : station.getTrainLines()) {
+                UI.println("test1");
+                for (TrainService service : line.getTrainServices()) { // not accessed
+                    UI.println("test2");
+                    for (Integer times : service.getTimes()) { // not accessed
+                        UI.println("test3");
+                        if (times > time) {
+                            UI.println("Next service for " + line + ": " + times);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

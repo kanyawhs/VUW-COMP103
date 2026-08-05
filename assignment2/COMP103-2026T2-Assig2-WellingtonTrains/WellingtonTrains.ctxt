@@ -1,5 +1,5 @@
 #BlueJ class context
-#Tue Aug 04 14:20:12 NZST 2026
+#Wed Aug 05 12:09:53 NZST 2026
 comment0.target=WellingtonTrains
 comment0.text=\r\n WellingtonTrains\r\n A program to answer queries about Wellington train lines and timetables for\r\n  the train services on those train lines.\r\n\r\n See the assignment page for a description of the program and what you have to do.\r\n
 comment1.params=args
@@ -14,8 +14,8 @@ comment12.params=stationName destinationName
 comment12.target=boolean checkConnected(java.lang.String, java.lang.String)
 comment12.text=\r\n Takes given station 1 and station 2 @param\r\n Checks through all train lines to find if there's a connected train line\r\n
 comment13.target=void loadTrainServicesData()
-comment14.params=time station
-comment14.target=void getStationServices(int, Station)
+comment14.params=stationToGet time
+comment14.target=void findNextServices(java.lang.String, int)
 comment2.target=void loadData()
 comment2.text=\r\n Load data files\r\n
 comment3.target=void setupGUI()
