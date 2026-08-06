@@ -1,5 +1,5 @@
 #BlueJ class context
-#Wed Aug 05 12:09:53 NZST 2026
+#Thu Aug 06 20:41:28 NZST 2026
 comment0.target=WellingtonTrains
 comment0.text=\r\n WellingtonTrains\r\n A program to answer queries about Wellington train lines and timetables for\r\n  the train services on those train lines.\r\n\r\n See the assignment page for a description of the program and what you have to do.\r\n
 comment1.params=args
@@ -14,8 +14,13 @@ comment12.params=stationName destinationName
 comment12.target=boolean checkConnected(java.lang.String, java.lang.String)
 comment12.text=\r\n Takes given station 1 and station 2 @param\r\n Checks through all train lines to find if there's a connected train line\r\n
 comment13.target=void loadTrainServicesData()
+comment13.text=\r\n Goes through each train line service file\r\n Adds each time to list of services in train line object\r\n
 comment14.params=stationToGet time
 comment14.target=void findNextServices(java.lang.String, int)
+comment14.text=\r\n Checks station name validity\r\n Iterates through stations train line to view all services\r\n Finds first service time after given time, prints then stops iteration\r\n \r\n Is it meant to strictly be from station?\r\n
+comment15.params=stationName destinationName time
+comment15.target=void findTrip(java.lang.String, java.lang.String, int)
+comment15.text=\r\n Checks all arguments are valid\r\n Checks if a train line with starting point and destination exists\r\n Iterates through services then times to find what time matches best for given time\r\n
 comment2.target=void loadData()
 comment2.text=\r\n Load data files\r\n
 comment3.target=void setupGUI()
@@ -33,4 +38,4 @@ comment8.target=void listLinesOfStation(java.lang.String)
 comment8.text=\r\n Checks if stationName is in list of stations, fetches all of its train lines\r\n
 comment9.target=void loadTrainLineData()
 comment9.text=\r\n Checks file for train line name, then loads file containing its stations\r\n
-numComments=15
+numComments=16

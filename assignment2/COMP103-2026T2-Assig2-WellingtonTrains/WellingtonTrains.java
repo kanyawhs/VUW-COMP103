@@ -10,7 +10,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 5/8
+ * Version: 6/8
  */
 
 import ecs100.*;
@@ -58,7 +58,6 @@ public class WellingtonTrains{
         UI.println("Loaded Stations");
         loadTrainLineData();
         UI.println("Loaded Train Lines");
-        // The following is only needed for the Completion and Challenge
         loadTrainServicesData();
         UI.println("Loaded Train Services");
         loadedData = true;
@@ -81,7 +80,7 @@ public class WellingtonTrains{
         UI.addButton("Stations on Line",    () -> {listStationsOnLine(this.lineName);});
         UI.addButton("Stations connected?", () -> {checkConnected(this.stationName, this.destinationName);});
         UI.addButton("Next Services",       () -> {findNextServices(this.stationName, this.startTime);});
-        //UI.addButton("Find Trip",           () -> {findTrip(this.stationName, this.destinationName, this.startTime);});
+        UI.addButton("Find Trip",           () -> {findTrip(this.stationName, this.destinationName, this.startTime);});
 
         UI.addButton("Quit", UI::quit);
         UI.setMouseListener(this::doMouse);
@@ -233,6 +232,10 @@ public class WellingtonTrains{
         return false;
     }
 
+    /**
+     * Goes through each train line service file
+     * Adds each time to list of services in train line object
+     */
     public void loadTrainServicesData() {
         for (String listedLine: trainLines.keySet()) {
             File serviceData = new File ("data/" + listedLine + "-services.data");
@@ -243,35 +246,71 @@ public class WellingtonTrains{
                     int time = sc.nextInt();
                     newService.addTime(time);
                 }
-                /* debugging
-                UI.println("Times for " + newService.getTrainID() + ": ");
-                for (int time: newService.getTimes()) {
-                UI.println(time);
-                }*/
             } catch (IOException e) {UI.println("Error: file not found"); }
-
+            trainLines.get(listedLine).addTrainService(newService);
         }
     }
-
+    
+    /**
+     * Checks station name validity
+     * Iterates through stations train line to view all services
+     * Finds first service time after given time, prints then stops iteration
+     * 
+     * Is it meant to strictly be from station?
+     */
     public void findNextServices(String stationToGet, int time) {
         if (!stations.containsKey(stationToGet)) {
             UI.println("Station name invalid. Please try again.");
-        } else { 
-            UI.println("Next trips after " + time + " for " + stationToGet + ":");
-            Station station = stations.get(stationToGet);
-            for (TrainLine line : station.getTrainLines()) {
-                UI.println("test1");
-                for (TrainService service : line.getTrainServices()) { // not accessed
-                    UI.println("test2");
-                    for (Integer times : service.getTimes()) { // not accessed
-                        UI.println("test3");
-                        if (times > time) {
-                            UI.println("Next service for " + line + ": " + times);
-                            break;
-                        }
+            return;
+        } else if (time > 2400 || time < 100) {
+            UI.println("Please enter a valid time (24hr clock, no symbols)");
+            return;
+        }
+        UI.println("Next trips after " + time + " for " + stationToGet + ":");
+        Station station = stations.get(stationToGet);
+        for (TrainLine line : station.getTrainLines()) {
+            for (TrainService service : line.getTrainServices()) {
+                for (Integer nextTime : service.getTimes()) {
+                    if (nextTime > time) {
+                        UI.println(line.getName() + ": " + nextTime);
+                        break;
                     }
                 }
             }
         }
     }
+    
+    /**
+     * Checks all arguments are valid
+     * Checks if a train line with starting point and destination exists
+     * Iterates through services then times to find what time matches best for given time
+     */
+    public void findTrip(String stationName, String destinationName, int time) {
+        if (!stations.containsKey(stationName)) {
+            UI.println("Station name invalid. Please try again.");
+            return;
+        } else if (!stations.containsKey(destinationName)) {
+            UI.println("Destination station name invalid. Please try again.");
+            return;
+        } else if (time > 2400 || time < 100) {
+            UI.println("Please enter a valid time (24hr clock, no symbols)");
+            return;
+        }
+        if (trainLines.containsKey(stationName + "_" + destinationName)) {
+            TrainLine line = trainLines.get(stationName + "_" + destinationName);
+            UI.println("Nearest service for " + line.getName() + " at " + time + ": ");
+            for (TrainService service : line.getTrainServices()) {
+                for (Integer nextTime : service.getTimes()) {
+                    if (nextTime >= time) {
+                        UI.println(nextTime);
+                        break;
+                    }
+                }
+            }
+        } else {
+            UI.println("Sorry, train line doesn't exist.");
+            return;
+        }
+    }
+    
 }
