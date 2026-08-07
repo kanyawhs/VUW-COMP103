@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 2/8
+ * Version: 7/8
  */
 
 import ecs100.*;
@@ -91,9 +91,7 @@ public class EarthquakeSorter{
     }
 
     /**
-     * Sorts the list of earthquakes according to the date and time that they occurred.
-     * 
-     * currently throws exception and whitespace not removed... eurgh...
+     * Sorts the list of earthquakes by earliest to latest according to the date and time that they occurred.
      */
     public void sortByTime(){
         UI.clearText();
@@ -103,10 +101,14 @@ public class EarthquakeSorter{
             // converts dates to int format
             String[] date1 = e1.getDate().split("-");
             String[] date2 = e2.getDate().split("-");
-            
-            // removes gaps
-            int date = Integer.parseInt(String.join(" ", date1));
-            int comparingDate = Integer.parseInt(String.join(" ", date2));
+            String date1v2 = String.join(" ", date1);
+            String date2v2 = String.join(" ", date2);
+            // remove whitespace
+            String date1v3 = date1v2.replaceAll("\\s", "");
+            String date2v3 = date2v2.replaceAll("\\s", "");
+            // parse as double
+            int date = Integer.parseInt(date1v3);
+            int comparingDate = Integer.parseInt(date2v3);
             if (date != comparingDate) {
                 return (date - comparingDate);
             } else {
@@ -115,13 +117,13 @@ public class EarthquakeSorter{
                 String[] time2 = e2.getTime().split(":");
                 String time1v2 = String.join(" ", time1);
                 String time2v2 = String.join(" ", time2);
-                
-                // converts times to int format
-                String[] time1v3 = time1v2.split(".");
-                String[] time2v3 = time2v2.split(".");
-                int time = Integer.parseInt(String.join(" ", time1v3));
-                int comparingTime = Integer.parseInt(String.join(" ", time2v3));
-                return (time - comparingTime);
+                // remove whitespace
+                String time1v3 = time1v2.replaceAll("\\s", "");
+                String time2v3 = time2v2.replaceAll("\\s", "");
+                // parse as double
+                double time = Double.parseDouble(time1v3);
+                double comparingTime = Double.parseDouble(time2v3);
+                return Double.compare(time, comparingTime);
             }
         });
         
