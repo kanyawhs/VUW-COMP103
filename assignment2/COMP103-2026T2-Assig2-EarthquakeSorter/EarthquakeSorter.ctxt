@@ -1,5 +1,5 @@
 #BlueJ class context
-#Fri Aug 07 18:46:17 NZST 2026
+#Fri Aug 07 19:02:41 NZST 2026
 comment0.target=EarthquakeSorter
 comment0.text=\r\n EarthquakeSorter\r\n Sorts data about a collection of 4335 NZ earthquakes from May 2016 to May 2017\r\n Each line of the file "earthquake-data.txt" has a description of one earthquake\:\r\n   ID time longitude latitude magnitude depth region\r\n Data is from http\://quakesearch.geonet.org.nz/\r\n  Note the earthquakes' ID have been modified to suit this assignment.\r\n  Note bigearthquake-data.txt has just the 421 earthquakes of magnitude 4.0 and above\r\n   which may be useful for testing, since it is not as big as the full file.\r\n   \r\n
 comment1.params=filename
@@ -11,7 +11,7 @@ comment2.text=\r\n Sorts the earthquakes by ID\r\n
 comment3.target=void sortByMagnitude()
 comment3.text=\r\n Sorts the earthquakes by magnitude, largest first\r\n \r\n Plan\:\r\n - get magnitude\r\n - sort it??\r\n
 comment4.target=void sortByTime()
-comment4.text=\r\n Sorts the list of earthquakes by earliest to latest according to the date and time that they occurred.\r\n
+comment4.text=\r\n Sorts the list of earthquakes according to the date and time that they occurred.\r\n
 comment5.target=void sortByRegion()
 comment5.text=\r\n Sorts the list of earthquakes according to region. If two earthquakes have the same\r\n   region, they should be sorted by magnitude (highest first) and then depth (more shallow first)\r\n
 comment6.params=longitude latitude

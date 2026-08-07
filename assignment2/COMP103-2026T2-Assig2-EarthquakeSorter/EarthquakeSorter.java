@@ -91,7 +91,7 @@ public class EarthquakeSorter{
     }
 
     /**
-     * Sorts the list of earthquakes by earliest to latest according to the date and time that they occurred.
+     * Sorts the list of earthquakes according to the date and time that they occurred.
      */
     public void sortByTime(){
         UI.clearText();
@@ -141,7 +141,17 @@ public class EarthquakeSorter{
         UI.clearText();
         UI.println("Earthquakes sorted by region, then by magnitude and depth");
         /*# YOUR CODE HERE */
-
+        earthquakes.sort((e1, e2) -> {
+            String reg1 = e1.getRegion();
+            String reg2 = e2.getRegion();
+            if (!reg1.equals(reg2)) {
+                return(reg1.compareTo(reg2));
+            } else if (e1.getMagnitude() != e2.getMagnitude()) {
+                return(Double.compare(e2.getMagnitude(), e1.getMagnitude()));
+            } else {
+                return(Double.compare(e1.getDepth(), e2.getDepth())); 
+            }
+        });
         for (Earthquake e : this.earthquakes){
             UI.println(e);
         }
