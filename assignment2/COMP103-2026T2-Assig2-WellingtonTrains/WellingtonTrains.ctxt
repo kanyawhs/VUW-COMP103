@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Aug 06 20:41:28 NZST 2026
+#Fri Aug 07 18:37:17 NZST 2026
 comment0.target=WellingtonTrains
 comment0.text=\r\n WellingtonTrains\r\n A program to answer queries about Wellington train lines and timetables for\r\n  the train services on those train lines.\r\n\r\n See the assignment page for a description of the program and what you have to do.\r\n
 comment1.params=args
@@ -27,6 +27,7 @@ comment3.target=void setupGUI()
 comment3.text=\r\n User interface has buttons for the queries and text fields to enter stations and train line\r\n You will need to implement the methods here.\r\n
 comment4.params=action x y
 comment4.target=void doMouse(java.lang.String, double, double)
+comment4.text=\r\n Get stations nearest to mouse click\r\n (Currently throws null pointer exception...)\r\n
 comment5.target=void loadStationData()
 comment5.text=\r\n Checks for each station parameter in file then creates a station and adds to map\r\n
 comment6.target=void listAllStations()

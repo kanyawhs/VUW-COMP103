@@ -92,19 +92,37 @@ public class EarthquakeSorter{
 
     /**
      * Sorts the list of earthquakes according to the date and time that they occurred.
+     * 
+     * currently throws exception and whitespace not removed... eurgh...
      */
     public void sortByTime(){
         UI.clearText();
         UI.println("Earthquakes sorted by time");
         /*# YOUR CODE HERE */
         earthquakes.sort((e1, e2) -> {
-            String line1 = e1.getDate();
-            String[] date1 = line1.split("-");
-            String line2 = e2.getDate();
-            String[] date2 = line2.split("-");
+            // converts dates to int format
+            String[] date1 = e1.getDate().split("-");
+            String[] date2 = e2.getDate().split("-");
+            
+            // removes gaps
             int date = Integer.parseInt(String.join(" ", date1));
             int comparingDate = Integer.parseInt(String.join(" ", date2));
-            return (date - comparingDate);
+            if (date != comparingDate) {
+                return (date - comparingDate);
+            } else {
+                // converts times to double format
+                String[] time1 = e1.getTime().split(":");
+                String[] time2 = e2.getTime().split(":");
+                String time1v2 = String.join(" ", time1);
+                String time2v2 = String.join(" ", time2);
+                
+                // converts times to int format
+                String[] time1v3 = time1v2.split(".");
+                String[] time2v3 = time2v2.split(".");
+                int time = Integer.parseInt(String.join(" ", time1v3));
+                int comparingTime = Integer.parseInt(String.join(" ", time2v3));
+                return (time - comparingTime);
+            }
         });
         
         for (Earthquake e : this.earthquakes){

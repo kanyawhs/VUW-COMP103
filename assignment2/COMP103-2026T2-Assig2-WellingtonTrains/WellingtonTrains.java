@@ -2,15 +2,11 @@
 // You are granted permission to use it to construct your answer to a COMP103 assignment.
 // You may not distribute it in any other way without permission.
 
-/**
- * Issue: when listing lines of station or station of lines, they do not actually contain any?? only in methods
- */
-
 /* Code for COMP103 - 2026T2, Assignment 2
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 6/8
+ * Version: 7/8
  */
 
 import ecs100.*;
@@ -101,10 +97,35 @@ public class WellingtonTrains{
         }
     }
 
+    /**
+     * Get stations nearest to mouse click
+     * (Currently throws null pointer exception...)
+     */
     public void doMouse(String action, double x, double y){
         if (action.equals("released")){
             /*# YOUR CODE HERE */
-
+            double releasedX = x;
+            double releasedY = y;
+            
+            UI.println("10 nearest stations to " + x + ", " + y + ": ");
+            
+            List<Station> stationsDistFromPoint = new ArrayList<>(stations.values());
+            stationsDistFromPoint.sort((s1, s2) -> {
+                double XDiff1 = s1.getXCoord() - x;
+                double YDiff1 = s1.getYCoord() - y;
+                double XDiff2 = s2.getXCoord() - x;
+                double YDiff2 = s2.getYCoord() - y;
+                
+                double diff1 = Math.abs(XDiff1) + Math.abs(YDiff1);
+                double diff2 = Math.abs(XDiff2) + Math.abs(YDiff2);
+                return Double.compare(diff1, diff2);
+            });
+            for (int i = 0; i < 10; i++) {
+                String stationName = stationsDistFromPoint.get(i).getName();
+                double XDist = stationsDistFromPoint.get(i).getXCoord() - x;
+                double YDist = stationsDistFromPoint.get(i).getYCoord() - y;
+                UI.println(stationName + "(" + XDist + ", " + YDist + " away from " + x + ", " + y + ")");
+            }
         }
     }
 
@@ -250,7 +271,7 @@ public class WellingtonTrains{
             trainLines.get(listedLine).addTrainService(newService);
         }
     }
-    
+
     /**
      * Checks station name validity
      * Iterates through stations train line to view all services
@@ -279,7 +300,7 @@ public class WellingtonTrains{
             }
         }
     }
-    
+
     /**
      * Checks all arguments are valid
      * Checks if a train line with starting point and destination exists
@@ -312,5 +333,5 @@ public class WellingtonTrains{
             return;
         }
     }
-    
+
 }
