@@ -98,35 +98,35 @@ public class EarthquakeSorter{
         UI.println("Earthquakes sorted by time");
         /*# YOUR CODE HERE */
         earthquakes.sort((e1, e2) -> {
-            // converts dates to int format
-            String[] date1 = e1.getDate().split("-");
-            String[] date2 = e2.getDate().split("-");
-            String date1v2 = String.join(" ", date1);
-            String date2v2 = String.join(" ", date2);
-            // remove whitespace
-            String date1v3 = date1v2.replaceAll("\\s", "");
-            String date2v3 = date2v2.replaceAll("\\s", "");
-            // parse as double
-            int date = Integer.parseInt(date1v3);
-            int comparingDate = Integer.parseInt(date2v3);
-            if (date != comparingDate) {
-                return (date - comparingDate);
-            } else {
-                // converts times to double format
-                String[] time1 = e1.getTime().split(":");
-                String[] time2 = e2.getTime().split(":");
-                String time1v2 = String.join(" ", time1);
-                String time2v2 = String.join(" ", time2);
-                // remove whitespace
-                String time1v3 = time1v2.replaceAll("\\s", "");
-                String time2v3 = time2v2.replaceAll("\\s", "");
-                // parse as double
-                double time = Double.parseDouble(time1v3);
-                double comparingTime = Double.parseDouble(time2v3);
-                return Double.compare(time, comparingTime);
-            }
-        });
-        
+                    // converts dates to int format
+                    String[] date1 = e1.getDate().split("-");
+                    String[] date2 = e2.getDate().split("-");
+                    String date1v2 = String.join(" ", date1);
+                    String date2v2 = String.join(" ", date2);
+                    // remove whitespace
+                    String date1v3 = date1v2.replaceAll("\\s", "");
+                    String date2v3 = date2v2.replaceAll("\\s", "");
+                    // parse as double
+                    int date = Integer.parseInt(date1v3);
+                    int comparingDate = Integer.parseInt(date2v3);
+                    if (date != comparingDate) {
+                        return (date - comparingDate);
+                    } else {
+                        // converts times to double format
+                        String[] time1 = e1.getTime().split(":");
+                        String[] time2 = e2.getTime().split(":");
+                        String time1v2 = String.join(" ", time1);
+                        String time2v2 = String.join(" ", time2);
+                        // remove whitespace
+                        String time1v3 = time1v2.replaceAll("\\s", "");
+                        String time2v3 = time2v2.replaceAll("\\s", "");
+                        // parse as double
+                        double time = Double.parseDouble(time1v3);
+                        double comparingTime = Double.parseDouble(time2v3);
+                        return Double.compare(time, comparingTime);
+                    }
+            });
+
         for (Earthquake e : this.earthquakes){
             UI.println(e);
         }
@@ -142,16 +142,16 @@ public class EarthquakeSorter{
         UI.println("Earthquakes sorted by region, then by magnitude and depth");
         /*# YOUR CODE HERE */
         earthquakes.sort((e1, e2) -> {
-            String reg1 = e1.getRegion();
-            String reg2 = e2.getRegion();
-            if (!reg1.equals(reg2)) {
-                return(reg1.compareTo(reg2));
-            } else if (e1.getMagnitude() != e2.getMagnitude()) {
-                return(Double.compare(e2.getMagnitude(), e1.getMagnitude()));
-            } else {
-                return(Double.compare(e1.getDepth(), e2.getDepth())); 
-            }
-        });
+                    String reg1 = e1.getRegion();
+                    String reg2 = e2.getRegion();
+                    if (!reg1.equals(reg2)) {
+                        return(reg1.compareTo(reg2));
+                    } else if (e1.getMagnitude() != e2.getMagnitude()) {
+                        return(Double.compare(e2.getMagnitude(), e1.getMagnitude()));
+                    } else {
+                        return(Double.compare(e1.getDepth(), e2.getDepth())); 
+                    }
+            });
         for (Earthquake e : this.earthquakes){
             UI.println(e);
         }
@@ -169,7 +169,18 @@ public class EarthquakeSorter{
         UI.println("Earthquakes sorted by proximity");
         UI.println("Longitude: " + longitude + " Latitude: " + latitude );
         /*# YOUR CODE HERE */
-
+        earthquakes.sort((e1, e2) -> {
+                    double dist1 = e1.distanceTo(longitude, latitude);
+                    double dist2 = e2.distanceTo(longitude, latitude);
+                    if (dist1 != dist2) {
+                        return Double.compare(dist1, dist2);
+                    } else {
+                        return Double.compare(e1.getMagnitude(), e2.getMagnitude());
+                    }
+            });
+        for (Earthquake e : this.earthquakes) {
+            UI.println(e + " (Distance from location: " + e.distanceTo(longitude, latitude) + ")");
+        }
         UI.println("------------------------");
     }
 
