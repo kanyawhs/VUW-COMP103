@@ -4,6 +4,7 @@
 
 /**
  * How can I avoid duplicates for statistics? Need to check if patients been treated before
+ * Also, how can I actually remove patient from treatmentRoom without concurrent modification exception...
  */
 
 /* Code for COMP103 - 2026T2, Assignment 3
@@ -71,6 +72,9 @@ public class HospitalERCore{
         waitingRoom.clear();
         treatmentRoom.clear();
         time = 0;
+        if (usePriorityQueue) {
+            waitingRoom = new PriorityQueue<Patient>(); // copies waiting room??
+        }
         
         UI.clearGraphics();
         UI.clearText();
@@ -92,14 +96,13 @@ public class HospitalERCore{
 
             /*# YOUR CODE HERE */
             time++; // advance time
-            
             for (Patient p : treatmentRoom) {
                 // patients in treatment room that have completed treatment are removed from room
                 if (p.currentTreatmentFinished()) {
-                    treatmentRoom.remove(p);
-                    if (!p.allTreatmentsCompleted()) { // places back in waiting room if there are treatments remaining
+                    p.removeCurrentTreatment();
+                    if (!p.allTreatmentsCompleted()) {
                         waitingRoom.offer(p);
-                    }
+                    } // places back in waiting room if there are treatments remaining
                     
                     // statistics update
                     totalPatientsTreated++;
@@ -107,10 +110,10 @@ public class HospitalERCore{
                     averageWaitingTime = totalWaitingTime / totalPatientsTreated;
                     
                     UI.println(time + ": Discharge: " + p);
-                } else {
-                    p.advanceCurrentTreatmentByTick(); // tick is processed for patients being treated
-                }
+                    UI.println(treatmentRoom.toString()); // debug because can't seem to remove from treatmentRoom
+                } else {p.advanceCurrentTreatmentByTick();} // tick is processed for patients being treated
             }
+            
             
             for (Patient p : waitingRoom) {
                 p.waitForATick(); // tick is processed for waiting patients
