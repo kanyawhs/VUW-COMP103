@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Aug 13 08:54:04 NZST 2026
+#Thu Aug 13 13:45:17 NZST 2026
 comment0.target=PatientGenerator
 comment0.text=\r\n Generates patients for simulating a hospital ER\r\n
 comment1.params=time

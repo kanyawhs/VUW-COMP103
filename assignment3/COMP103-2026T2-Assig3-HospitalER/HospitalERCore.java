@@ -4,14 +4,13 @@
 
 /**
  * How can I avoid duplicates for statistics? Need to check if patients been treated before
- * Also, how can I actually remove patient from treatmentRoom without concurrent modification exception...
  */
 
 /* Code for COMP103 - 2026T2, Assignment 3
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 12/8
+ * Version: 13/8
  */
 
 import ecs100.*;
@@ -48,12 +47,11 @@ public class HospitalERCore{
     private int totalPatientsTreated = 0;
     private int totalWaitingTime = 0; // necessary for average wait time stat
     private int averageWaitingTime = 0;
-    
+
     // Fields for the simulation
     private boolean running = false;
     private int time = 0; // The simulated time - the current "tick"
     private int delay = 300;  // milliseconds of real time for each tick
-
 
     /**
      * Reset the simulation:
@@ -74,8 +72,11 @@ public class HospitalERCore{
         time = 0;
         if (usePriorityQueue) {
             waitingRoom = new PriorityQueue<Patient>(); // copies waiting room??
+        } else {
+            waitingRoom = new ArrayDeque<Patient>();
         }
-        
+        running = true;
+
         UI.clearGraphics();
         UI.clearText();
     }
@@ -96,32 +97,33 @@ public class HospitalERCore{
 
             /*# YOUR CODE HERE */
             time++; // advance time
+            List<Patient> toRemove = new ArrayList<>();
             for (Patient p : treatmentRoom) {
-                // patients in treatment room that have completed treatment are removed from room
-                if (p.currentTreatmentFinished()) {
-                    p.removeCurrentTreatment();
-                    if (!p.allTreatmentsCompleted()) {
-                        waitingRoom.offer(p);
-                    } // places back in waiting room if there are treatments remaining
-                    
-                    // statistics update
-                    totalPatientsTreated++;
-                    totalWaitingTime += p.getTotalWaitingTime();
-                    averageWaitingTime = totalWaitingTime / totalPatientsTreated;
-                    
-                    UI.println(time + ": Discharge: " + p);
-                    UI.println(treatmentRoom.toString()); // debug because can't seem to remove from treatmentRoom
-                } else {p.advanceCurrentTreatmentByTick();} // tick is processed for patients being treated
+                p.advanceCurrentTreatmentByTick();
+                if (p.currentTreatmentFinished()) {toRemove.add(p);} // patient prepared to be removed once treatment finished
             }
-            
-            
+            // patient removal
+            for (int i = 0; i < toRemove.size(); i++) {treatmentRoom.remove(toRemove.get(i));}
+            for (Patient p : toRemove) {
+                p.removeCurrentTreatment();
+                if (!p.allTreatmentsCompleted()) {waitingRoom.offer(p);} // places back in waiting room if there are treatments remaining
+                
+                // statistics update
+                totalPatientsTreated++;
+                totalWaitingTime += p.getTotalWaitingTime();
+                averageWaitingTime = totalWaitingTime / totalPatientsTreated;
+
+                UI.println(time + ": Discharge: " + p);
+            }
+
             for (Patient p : waitingRoom) {
                 p.waitForATick(); // tick is processed for waiting patients
-                if (!treatmentRoom.contains(p) && waitingRoom.peek().equals(p)) { // checks if treatmentRoom can take patient, checks if patient is at front of queue
-                    treatmentRoom.add(waitingRoom.poll()); // adds removed patient to treatment room
-                }
             }
-            
+            while (treatmentRoom.size() < MAX_PATIENTS && !waitingRoom.isEmpty()) { // checks if treatmentRoom can take patient, checks if any patients waiting
+                treatmentRoom.add(waitingRoom.peek()); // adds removed patient to treatment room
+                UI.println(time + ": Treating: " + waitingRoom.poll());
+            }
+
             // Gets any new patient that has arrived and adds them to the waiting room
             Patient newPatient = PatientGenerator.getNextPatient(time);
             if (newPatient != null){
@@ -146,11 +148,7 @@ public class HospitalERCore{
         UI.println("Average waiting time: " + averageWaitingTime);
     }
 
-
-
-
     // METHODS FOR THE GUI AND VISUALISATION
-
     /**
      * Set up the GUI: buttons to control simulation and sliders for setting parameters
      */
@@ -161,11 +159,11 @@ public class HospitalERCore{
         UI.addButton("Pause & Report", ()->{running=false;});
         UI.addSlider("Speed", 1, 400, (401-delay), (double val)-> {delay = (int)(401-val);});
         UI.addSlider("Av arrival interval", 1, 50, PatientGenerator.getArrivalInterval(),
-                     PatientGenerator::setArrivalInterval);
+            PatientGenerator::setArrivalInterval);
         UI.addSlider("Prob of Pri 1", 1, 100, PatientGenerator.getProbPri1(),
-                     PatientGenerator::setProbPri1);
+            PatientGenerator::setProbPri1);
         UI.addSlider("Prob of Pri 2", 1, 100, PatientGenerator.getProbPri2(),
-                     PatientGenerator::setProbPri2);
+            PatientGenerator::setProbPri2);
         UI.addButton("Quit", UI::quit);
         UI.setWindowSize(1000,600);
         UI.setDivider(0.5);
@@ -199,7 +197,6 @@ public class HospitalERCore{
         UI.drawLine(0,y+2,400, y+2);
     }
 
-
     /**
      * main:  Construct a new HospitalERCore object, setting up the GUI, and resetting
      */
@@ -208,6 +205,5 @@ public class HospitalERCore{
         er.setupGUI();
         er.reset(false);   // initialise with an ordinary queue.
     }        
-
 
 }
