@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Aug 13 13:45:17 NZST 2026
+#Thu Aug 27 09:33:47 NZST 2026
 comment0.target=HospitalERCore
 comment0.text=\r\n Simple Simulation of a Hospital ER\r\n \r\n The Emergency room has a waiting room and a treatment room that has a fixed\r\n  set of beds for examining and treating patients.\r\n \r\n When a patient arrives at the emergency room, they are immediately assessed by the\r\n  triage team who determines the priority of the patient.\r\n\r\n They then wait in the waiting room until a bed becomes free, at which point\r\n they go from the waiting room to the treatment room.\r\n\r\n When a patient has finished their treatment, they leave the treatment room and are discharged,\r\n  at which point information about the patient is added to the statistics. \r\n\r\n  READ THE ASSIGNMENT PAGE\!\r\n
 comment1.params=usePriorityQueue

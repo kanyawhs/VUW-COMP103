@@ -4,13 +4,14 @@
 
 /**
  * How can I avoid duplicates for statistics? Need to check if patients been treated before
+ * None of the buttons working...
  */
 
 /* Code for COMP103 - 2026T2, Assignment 3
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 13/8
+ * Version: 27/8
  */
 
 import ecs100.*;
@@ -48,6 +49,9 @@ public class HospitalERCore{
     private int totalWaitingTime = 0; // necessary for average wait time stat
     private int averageWaitingTime = 0;
 
+    private int totalPriority1PatientsTreated = 0;
+    private int totalPriority1WaitingTime = 0;
+
     // Fields for the simulation
     private boolean running = false;
     private int time = 0; // The simulated time - the current "tick"
@@ -70,10 +74,13 @@ public class HospitalERCore{
         waitingRoom.clear();
         treatmentRoom.clear();
         time = 0;
+        UI.println("test");
         if (usePriorityQueue) {
-            waitingRoom = new PriorityQueue<Patient>(); // copies waiting room??
+            waitingRoom = new PriorityQueue<Patient>(waitingRoom); 
+            UI.println("test1");
         } else {
             waitingRoom = new ArrayDeque<Patient>();
+            UI.println("test2");
         }
         running = true;
 
@@ -85,6 +92,7 @@ public class HospitalERCore{
      * Main loop of the simulation
      */
     public void run(){
+        System.out.println("debug");
         if (running) { return; } // don't start simulation if already running one!
         running = true;
         while (running){         // each time step, check whether the simulation should pause.
@@ -97,25 +105,36 @@ public class HospitalERCore{
 
             /*# YOUR CODE HERE */
             time++; // advance time
+            // Treated patient removal
             List<Patient> toRemove = new ArrayList<>();
             for (Patient p : treatmentRoom) {
                 p.advanceCurrentTreatmentByTick();
                 if (p.currentTreatmentFinished()) {toRemove.add(p);} // patient prepared to be removed once treatment finished
             }
-            // patient removal
+
             for (int i = 0; i < toRemove.size(); i++) {treatmentRoom.remove(toRemove.get(i));}
+
             for (Patient p : toRemove) {
                 p.removeCurrentTreatment();
                 if (!p.allTreatmentsCompleted()) {waitingRoom.offer(p);} // places back in waiting room if there are treatments remaining
-                
+
                 // statistics update
                 totalPatientsTreated++;
                 totalWaitingTime += p.getTotalWaitingTime();
                 averageWaitingTime = totalWaitingTime / totalPatientsTreated;
+                
+                for (int i = 0; i <= toRemove.size(); i++) {
+                    if (toRemove.get(i).getPriority() == 1) {
+                        totalPriority1PatientsTreated++;
+                        totalPriority1WaitingTime += toRemove.get(i).getTotalWaitingTime();
+                    }
+                }
 
                 UI.println(time + ": Discharge: " + p);
             }
+            toRemove.clear();
 
+            // Begins treating waiting room patient
             for (Patient p : waitingRoom) {
                 p.waitForATick(); // tick is processed for waiting patients
             }
@@ -123,6 +142,7 @@ public class HospitalERCore{
                 treatmentRoom.add(waitingRoom.peek()); // adds removed patient to treatment room
                 UI.println(time + ": Treating: " + waitingRoom.poll());
             }
+            
 
             // Gets any new patient that has arrived and adds them to the waiting room
             Patient newPatient = PatientGenerator.getNextPatient(time);
@@ -130,6 +150,7 @@ public class HospitalERCore{
                 UI.println(time+ ": Arrived: "+newPatient);
                 waitingRoom.offer(newPatient);
             }
+
             redraw();
             UI.sleep(delay);
         }
@@ -146,6 +167,8 @@ public class HospitalERCore{
         /*# YOUR CODE HERE */
         UI.println("Total patients treated: " + totalPatientsTreated);
         UI.println("Average waiting time: " + averageWaitingTime);
+        UI.println("Total priority 1 patients treated: " + totalPriority1PatientsTreated);
+        UI.println("Total waiting time for priority 1 patients: " + totalPriority1WaitingTime);
     }
 
     // METHODS FOR THE GUI AND VISUALISATION

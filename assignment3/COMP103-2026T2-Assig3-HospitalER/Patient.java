@@ -103,7 +103,6 @@ public class Patient implements Comparable<Patient>{
         } else {
             return Integer.compare(other.getTotalWaitingTime(), this.getTotalWaitingTime());
         }
-        
     }
 
     // Methods for simulating the progress of the Patient through their waiting and their treatments
