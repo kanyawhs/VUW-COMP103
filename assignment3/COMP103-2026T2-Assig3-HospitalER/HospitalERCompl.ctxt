@@ -1,0 +1,22 @@
+#BlueJ class context
+#Tue Sep 01 22:04:01 NZST 2026
+comment0.target=HospitalERCompl
+comment0.text=\r\n Simulation of a Hospital ER\r\n \r\n The hospital has a collection of Departments, including the ER department, each of which has\r\n  and a treatment room.\r\n \r\n When patients arrive at the hospital, they are immediately assessed by the\r\n  triage team who determine the priority of the patient and (unrealistically) a sequence of treatments \r\n  that the patient will need.\r\n\r\n The simulation should move patients through the departments for each of the required treatments,\r\n finally discharging patients when they have completed their final treatment.\r\n\r\n  READ THE ASSIGNMENT PAGE\!\r\n
+comment1.params=usePriorityQueues
+comment1.target=void reset(boolean)
+comment1.text=\r\n stop any running simulation\r\n Define the departments available and put them in the map of departments.\r\n Each department needs to have a name and a maximum number of patients that\r\n it can be treating at the same time.\r\n reset the statistics\r\n
+comment2.target=void run()
+comment2.text=\r\n Main loop of the simulation\r\n
+comment3.params=p
+comment3.target=void discharge(Patient)
+comment3.text=\r\n Report that a patient has been discharged, along with any\r\n useful statistics about the patient\r\n
+comment4.target=void reportStatistics()
+comment4.text=\r\n Report summary statistics about the simulation\r\n
+comment5.target=void setupGUI()
+comment5.text=\r\n Set up the GUI\: buttons to control simulation and sliders for setting parameters\r\n
+comment6.target=void redraw()
+comment6.text=\r\n Redraws all the departments\r\n
+comment7.params=arguments
+comment7.target=void main(java.lang.String[])
+comment7.text=\r\n Construct a new HospitalER object, setting up the GUI, and resetting\r\n
+numComments=8

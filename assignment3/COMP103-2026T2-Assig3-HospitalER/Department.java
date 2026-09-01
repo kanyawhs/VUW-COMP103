@@ -3,9 +3,10 @@
 // You may not distribute it in any other way without permission.
 
 /* Code for COMP103 - 2026T2, Assignment 3
- * Name:
- * Username:
- * ID:
+ * Name: Kanya Farley
+ * Username: farleykany
+ * ID: 300693857
+ * Version: 1/9
  */
 
 import ecs100.*;
@@ -35,13 +36,68 @@ public class Department{
      */
     public Department(String name, int maxPatients, boolean usePriQueue){
         /*# YOUR CODE HERE */
-
+        
+        // initialization
+        this.name = name;
+        this.maxPatients = maxPatients;
+        
+        // queues
+        treatmentRoom = new HashSet<Patient>();
+        if (usePriQueue) {
+            waitingRoom = new PriorityQueue<Patient>(waitingRoom);
+        } else {
+            waitingRoom = new ArrayDeque<Patient>(waitingRoom);
+        }
     }
 
     // Methods 
 
     /*# YOUR CODE HERE */
-
+    public void addPatient(Patient p) {
+        waitingRoom.add(p);
+    }
+    
+    public String getDepartmentName() {
+        return this.name;
+    }
+    
+    public int getMaxPatients() {
+        return this.maxPatients;
+    }
+    
+    public Queue getWaitingPatients() {
+        if (!waitingRoom.isEmpty()) {
+            UI.println("Patients waiting for " + name + ": ");
+            for (Patient p: waitingRoom) {
+                UI.println(p.toString());
+            }
+        } else {
+            UI.println("No patients currently waiting for " + name);
+        }
+        return waitingRoom;
+    }
+    
+    public Set getTreatingPatients() {
+        if (!treatmentRoom.isEmpty()) {
+            UI.println("Patients being treated in " + name + ": ");
+            for (Patient p: treatmentRoom) {
+                UI.println(p.toString());
+            }
+        } else {
+            UI.println("No patients being treated in " + name + " department.");
+        }
+        return treatmentRoom;
+    }
+    
+    public void treatNextPatient() {
+        Patient toTreat = waitingRoom.poll();
+        treatmentRoom.add(toTreat);
+    }
+    
+    public void completeTreatment(Patient p) {
+        treatmentRoom.remove(p);
+    }
+    
     /**
      * Draw the department: the patients being treated and the patients waiting
      * You may need to change the names if your fields had different names

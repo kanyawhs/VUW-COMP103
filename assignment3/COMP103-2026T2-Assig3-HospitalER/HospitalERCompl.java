@@ -3,9 +3,10 @@
 // You may not distribute it in any other way without permission.
 
 /* Code for COMP103 - 2026T2, Assignment 3
- * Name:
- * Username:
- * ID:
+ * Name: Kanya Farley
+ * Username: farleykany
+ * ID: 300693857
+ * Version: 1/9
  */
 
 import ecs100.*;
@@ -43,7 +44,13 @@ public class HospitalERCompl{
 
     // fields for the statistics
     /*# YOUR CODE HERE */
+    private int totalPatientsTreated = 0;
+    private int totalWaitingTime = 0; // necessary for average wait time stat
+    private int averageWaitingTime = 0;
 
+    private int totalPriority1PatientsTreated = 0;
+    private int totalPriority1WaitingTime = 0;
+    
     // Fields for the simulation
     private boolean running = false;
     private int time = 0; // The simulated time - the current "tick"
@@ -59,7 +66,31 @@ public class HospitalERCompl{
      */
     public void reset(boolean usePriorityQueues){
         /*# YOUR CODE HERE */
+        running=false;
+        UI.sleep(2*delay);  // to make sure that any running simulation has stopped
 
+        time = 0;           // set the "tick" to zero.
+        // reset the waiting room, the treatment room, and the statistics.
+        /*# YOUR CODE HERE */
+        departments.clear();     
+        
+        Department er = new Department("ER", 8, usePriorityQueues);
+        departments.put("ER", er);
+        
+        Department xRay = new Department("X-Ray", 3, usePriorityQueues);
+        departments.put("X-Ray", xRay);
+        
+        Department mri = new Department("MRI", 1, usePriorityQueues);
+        departments.put("MRI", mri);
+        
+        Department ultraSound = new Department("UltraSound", 2, usePriorityQueues);
+        departments.put("UltraSound", ultraSound);
+        
+        Department surgery = new Department("Surgery", 3, usePriorityQueues);
+        departments.put("Surgery", surgery);        
+
+        UI.clearGraphics();
+        UI.clearText();
     }
 
     /**
@@ -70,7 +101,8 @@ public class HospitalERCompl{
         running = true;
         while (running){
             /*# YOUR CODE HERE */
-        
+            time++;
+            
         }
         // paused, so report current statistics
         reportStatistics();

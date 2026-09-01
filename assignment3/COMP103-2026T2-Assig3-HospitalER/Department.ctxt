@@ -1,0 +1,21 @@
+#BlueJ class context
+#Tue Sep 01 22:15:57 NZST 2026
+comment0.target=Department
+comment0.text=\r\n A treatment Department (ER, X-Ray, MRI, ER, UltraSound, Surgery)\r\n Each department will need\r\n - A name,\r\n - A maximum number of patients that can be treated at the same time\r\n - A Set of Patients that are currently being treated\r\n - A Queue of Patients waiting to be treated.\r\n    (ordinary queue, or priority queue, depending on argument to constructor)\r\n
+comment1.params=name maxPatients usePriQueue
+comment1.target=Department(java.lang.String, int, boolean)
+comment1.text=\r\n Construct a new Department object\r\n Initialise the waiting queue and the current Set.\r\n
+comment2.params=p
+comment2.target=void addPatient(Patient)
+comment2.text=\# YOUR CODE HERE
+comment3.target=java.lang.String getDepartmentName()
+comment4.target=int getMaxPatients()
+comment5.target=java.util.Queue getWaitingPatients()
+comment6.target=java.util.Set getTreatingPatients()
+comment7.target=void treatNextPatient()
+comment8.params=p
+comment8.target=void completeTreatment(Patient)
+comment9.params=y
+comment9.target=void redraw(double)
+comment9.text=\r\n Draw the department\: the patients being treated and the patients waiting\r\n You may need to change the names if your fields had different names\r\n
+numComments=10

@@ -70,17 +70,12 @@ public class HospitalERCore{
         time = 0;           // set the "tick" to zero.
         // reset the waiting room, the treatment room, and the statistics.
         /*# YOUR CODE HERE */
-        running = false; // stop running simulation
         waitingRoom.clear();
         treatmentRoom.clear();
-        time = 0;
-        UI.println("test");
         if (usePriorityQueue) {
             waitingRoom = new PriorityQueue<Patient>(waitingRoom); 
-            UI.println("test1");
         } else {
             waitingRoom = new ArrayDeque<Patient>();
-            UI.println("test2");
         }
 
         UI.clearGraphics();
