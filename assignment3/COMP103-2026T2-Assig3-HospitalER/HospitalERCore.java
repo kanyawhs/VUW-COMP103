@@ -4,14 +4,14 @@
 
 /**
  * How can I avoid duplicates for statistics? Need to check if patients been treated before
- * None of the buttons working...
+ * out-of-bounds running problem??
  */
 
 /* Code for COMP103 - 2026T2, Assignment 3
  * Name: Kanya Farley
  * Username: farleykany
  * ID:
- * Version: 27/8
+ * Version: 1/9
  */
 
 import ecs100.*;
@@ -82,7 +82,6 @@ public class HospitalERCore{
             waitingRoom = new ArrayDeque<Patient>();
             UI.println("test2");
         }
-        running = true;
 
         UI.clearGraphics();
         UI.clearText();
@@ -92,7 +91,6 @@ public class HospitalERCore{
      * Main loop of the simulation
      */
     public void run(){
-        System.out.println("debug");
         if (running) { return; } // don't start simulation if already running one!
         running = true;
         while (running){         // each time step, check whether the simulation should pause.
@@ -122,12 +120,10 @@ public class HospitalERCore{
                 totalPatientsTreated++;
                 totalWaitingTime += p.getTotalWaitingTime();
                 averageWaitingTime = totalWaitingTime / totalPatientsTreated;
-                
-                for (int i = 0; i <= toRemove.size(); i++) {
-                    if (toRemove.get(i).getPriority() == 1) {
-                        totalPriority1PatientsTreated++;
-                        totalPriority1WaitingTime += toRemove.get(i).getTotalWaitingTime();
-                    }
+
+                if (p.getPriority() == 1) {
+                    totalPriority1PatientsTreated++;
+                    totalPriority1WaitingTime += p.getTotalWaitingTime();
                 }
 
                 UI.println(time + ": Discharge: " + p);
@@ -142,7 +138,6 @@ public class HospitalERCore{
                 treatmentRoom.add(waitingRoom.peek()); // adds removed patient to treatment room
                 UI.println(time + ": Treating: " + waitingRoom.poll());
             }
-            
 
             // Gets any new patient that has arrived and adds them to the waiting room
             Patient newPatient = PatientGenerator.getNextPatient(time);
