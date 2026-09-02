@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 300693857
- * Version: 1/9
+ * Version: 2/9
  */
 
 import ecs100.*;
@@ -50,12 +50,11 @@ public class HospitalERCompl{
 
     private int totalPriority1PatientsTreated = 0;
     private int totalPriority1WaitingTime = 0;
-    
+
     // Fields for the simulation
     private boolean running = false;
     private int time = 0; // The simulated time - the current "tick"
     private int delay = 300;  // milliseconds of real time for each tick
-
 
     /**
      * stop any running simulation
@@ -73,19 +72,19 @@ public class HospitalERCompl{
         // reset the waiting room, the treatment room, and the statistics.
         /*# YOUR CODE HERE */
         departments.clear();     
-        
+
         Department er = new Department("ER", 8, usePriorityQueues);
         departments.put("ER", er);
-        
+
         Department xRay = new Department("X-Ray", 3, usePriorityQueues);
         departments.put("X-Ray", xRay);
-        
+
         Department mri = new Department("MRI", 1, usePriorityQueues);
         departments.put("MRI", mri);
-        
+
         Department ultraSound = new Department("UltraSound", 2, usePriorityQueues);
         departments.put("UltraSound", ultraSound);
-        
+
         Department surgery = new Department("Surgery", 3, usePriorityQueues);
         departments.put("Surgery", surgery);        
 
@@ -102,12 +101,59 @@ public class HospitalERCompl{
         while (running){
             /*# YOUR CODE HERE */
             time++;
+
+            // treatment room handling
+            List<Patient> toMove = new ArrayList<>();
+            for (Department d : departments.values()) {
+                List<Patient> toRemove = new ArrayList<>();
+                for (Patient p : d.getTreatingPatients()) {
+                    p.advanceCurrentTreatmentByTick();
+                    if (p.currentTreatmentFinished()) {toRemove.add(p);} // patient prepared to be removed once treatment finished
+                }
+                for (int i = 0; i < toRemove.size(); i++) {d.getTreatingPatients().remove(toRemove.get(i));}
+
+                for (Patient p : toRemove) {
+                    p.removeCurrentTreatment();
+                    if (!p.allTreatmentsCompleted()) {
+                        Department next = departments.get(p.getCurrentDepartment());
+                        next.addPatient(p);
+                    }
+
+                    // statistics update
+                    totalPatientsTreated++;
+                    totalWaitingTime += p.getTotalWaitingTime();
+                    averageWaitingTime = totalWaitingTime / totalPatientsTreated;
+
+                    if (p.getPriority() == 1) {
+                        totalPriority1PatientsTreated++;
+                        totalPriority1WaitingTime += p.getTotalWaitingTime();
+                    }
+
+                    UI.println(time + ": Discharge: " + p);
+                }
+                toRemove.clear();
+            }
             
+            // waiting room handling
+            for (Department d : departments.values()) {
+                for (Patient p: d.getWaitingPatients()) {p.waitForATick();}
+                while (d.getWaitingPatients().size() < d.getMaxPatients() && !d.getWaitingPatients().isEmpty()) {
+                    d.getTreatingPatients().add(d.getWaitingPatients().peek());
+                    UI.println(time + ": Treating: " + d.getWaitingPatients().poll());
+                }
+            }
+            
+            // Gets any new patient that has arrived and adds them to the waiting room
+            Patient newPatient = PatientGenerator.getNextPatient(time);
+            if (newPatient != null){
+                UI.println(time+ ": Arrived: "+newPatient);
+                Department first = departments.get(newPatient.getCurrentDepartment());
+                first.getWaitingPatients().offer(newPatient);
+            }
         }
         // paused, so report current statistics
         reportStatistics();
     }
-
 
     /**
      * Report that a patient has been discharged, along with any
@@ -115,7 +161,7 @@ public class HospitalERCompl{
      */
     public void discharge(Patient p){
         /*# YOUR CODE HERE */
-        
+
     }
 
     /**
@@ -123,12 +169,10 @@ public class HospitalERCompl{
      */
     public void reportStatistics(){
         /*# YOUR CODE HERE */
-        
+
     }
 
-
     // METHODS FOR THE GUI AND VISUALISATION
-
     /**
      * Set up the GUI: buttons to control simulation and sliders for setting parameters
      */
@@ -140,11 +184,11 @@ public class HospitalERCompl{
         UI.addSlider("Speed", 1, 400, (401-delay),
             (double val)-> {delay = (int)(401-val);});
         UI.addSlider("Av arrival interval", 1, 50, PatientGenerator.getArrivalInterval(),
-                     PatientGenerator::setArrivalInterval);
+            PatientGenerator::setArrivalInterval);
         UI.addSlider("Prob of Pri 1", 1, 100, PatientGenerator.getProbPri1(),
-                     PatientGenerator::setProbPri1);
+            PatientGenerator::setProbPri1);
         UI.addSlider("Prob of Pri 2", 1, 100, PatientGenerator.getProbPri2(),
-                     PatientGenerator::setProbPri2);
+            PatientGenerator::setProbPri2);
         UI.addButton("Quit", UI::quit);
         UI.setWindowSize(1000,600);
         UI.setDivider(0.5);
@@ -175,6 +219,5 @@ public class HospitalERCompl{
         er.setupGUI();
         er.reset(false);   // initialise with an ordinary queue.
     }        
-
 
 }

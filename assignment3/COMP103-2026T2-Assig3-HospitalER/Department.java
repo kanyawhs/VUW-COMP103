@@ -41,7 +41,7 @@ public class Department{
         this.name = name;
         this.maxPatients = maxPatients;
         
-        // queues
+        // queues (that don't work)
         treatmentRoom = new HashSet<Patient>();
         if (usePriQueue) {
             waitingRoom = new PriorityQueue<Patient>(waitingRoom);
@@ -65,7 +65,7 @@ public class Department{
         return this.maxPatients;
     }
     
-    public Queue getWaitingPatients() {
+    public Queue<Patient> getWaitingPatients() {
         if (!waitingRoom.isEmpty()) {
             UI.println("Patients waiting for " + name + ": ");
             for (Patient p: waitingRoom) {
@@ -77,7 +77,7 @@ public class Department{
         return waitingRoom;
     }
     
-    public Set getTreatingPatients() {
+    public Set<Patient> getTreatingPatients() {
         if (!treatmentRoom.isEmpty()) {
             UI.println("Patients being treated in " + name + ": ");
             for (Patient p: treatmentRoom) {

@@ -10,8 +10,8 @@
 /* Code for COMP103 - 2026T2, Assignment 3
  * Name: Kanya Farley
  * Username: farleykany
- * ID:
- * Version: 1/9
+ * ID: 300693857
+ * Version: 2/9
  */
 
 import ecs100.*;
@@ -126,15 +126,13 @@ public class HospitalERCore{
             toRemove.clear();
 
             // Begins treating waiting room patient
-            for (Patient p : waitingRoom) {
-                p.waitForATick(); // tick is processed for waiting patients
-            }
+            for (Patient p : waitingRoom) {p.waitForATick();}
             while (treatmentRoom.size() < MAX_PATIENTS && !waitingRoom.isEmpty()) { // checks if treatmentRoom can take patient, checks if any patients waiting
                 treatmentRoom.add(waitingRoom.peek()); // adds removed patient to treatment room
                 UI.println(time + ": Treating: " + waitingRoom.poll());
             }
 
-            // Gets any new patient that has arrived and adds them to the waiting room
+            // Gets any new patient that has arrived and adds them correct department
             Patient newPatient = PatientGenerator.getNextPatient(time);
             if (newPatient != null){
                 UI.println(time+ ": Arrived: "+newPatient);
