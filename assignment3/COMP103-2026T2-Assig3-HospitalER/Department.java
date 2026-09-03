@@ -41,13 +41,9 @@ public class Department{
         this.name = name;
         this.maxPatients = maxPatients;
         
-        // queues (that don't work)
+        // queues
         treatmentRoom = new HashSet<Patient>();
-        if (usePriQueue) {
-            waitingRoom = new PriorityQueue<Patient>(waitingRoom);
-        } else {
-            waitingRoom = new ArrayDeque<Patient>(waitingRoom);
-        }
+        waitingRoom = new ArrayDeque<Patient>();
     }
 
     // Methods 

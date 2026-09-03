@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 300693857
- * Version: 2/9
+ * Version: 3/9
  */
 
 import ecs100.*;
@@ -137,7 +137,7 @@ public class HospitalERCompl{
             // waiting room handling
             for (Department d : departments.values()) {
                 for (Patient p: d.getWaitingPatients()) {p.waitForATick();}
-                while (d.getWaitingPatients().size() < d.getMaxPatients() && !d.getWaitingPatients().isEmpty()) {
+                while (d.getTreatingPatients().size() < d.getMaxPatients() && !d.getWaitingPatients().isEmpty()) {
                     d.getTreatingPatients().add(d.getWaitingPatients().peek());
                     UI.println(time + ": Treating: " + d.getWaitingPatients().poll());
                 }
@@ -150,6 +150,8 @@ public class HospitalERCompl{
                 Department first = departments.get(newPatient.getCurrentDepartment());
                 first.getWaitingPatients().offer(newPatient);
             }
+            redraw();
+            UI.sleep(delay);
         }
         // paused, so report current statistics
         reportStatistics();
