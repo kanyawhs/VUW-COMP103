@@ -1,5 +1,5 @@
 #BlueJ class context
-#Tue Sep 01 21:44:58 NZST 2026
+#Thu Sep 03 17:10:19 NZST 2026
 comment0.target=Permutations
 comment0.text=\ \r\n  Compute all permutations of a list of Strings\r\n\r\n  You only have to write one method - the extendPermutations(...) method\r\n  which does the recursive search.  \r\n
 comment1.params=items

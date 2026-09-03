@@ -117,7 +117,7 @@ public class HospitalERCompl{
                     if (!p.allTreatmentsCompleted()) {
                         Department next = departments.get(p.getCurrentDepartment());
                         next.addPatient(p);
-                    }
+                    } 
 
                     // statistics update
                     totalPatientsTreated++;
@@ -129,11 +129,11 @@ public class HospitalERCompl{
                         totalPriority1WaitingTime += p.getTotalWaitingTime();
                     }
 
-                    UI.println(time + ": Discharge: " + p);
+                    discharge(p);
                 }
                 toRemove.clear();
             }
-            
+
             // waiting room handling
             for (Department d : departments.values()) {
                 for (Patient p: d.getWaitingPatients()) {p.waitForATick();}
@@ -142,7 +142,7 @@ public class HospitalERCompl{
                     UI.println(time + ": Treating: " + d.getWaitingPatients().poll());
                 }
             }
-            
+
             // Gets any new patient that has arrived and adds them to the waiting room
             Patient newPatient = PatientGenerator.getNextPatient(time);
             if (newPatient != null){
@@ -163,7 +163,7 @@ public class HospitalERCompl{
      */
     public void discharge(Patient p){
         /*# YOUR CODE HERE */
-
+        UI.println(time + ": Discharge: " + p);
     }
 
     /**
@@ -171,7 +171,10 @@ public class HospitalERCompl{
      */
     public void reportStatistics(){
         /*# YOUR CODE HERE */
-
+        UI.println("Total patients treated: " + totalPatientsTreated);
+        UI.println("Average waiting time: " + averageWaitingTime);
+        UI.println("Total priority 1 patients treated: " + totalPriority1PatientsTreated);
+        UI.println("Total waiting time for priority 1 patients: " + totalPriority1WaitingTime);
     }
 
     // METHODS FOR THE GUI AND VISUALISATION

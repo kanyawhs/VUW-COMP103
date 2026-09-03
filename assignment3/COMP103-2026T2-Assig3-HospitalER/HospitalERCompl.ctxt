@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Sep 03 16:56:10 NZST 2026
+#Thu Sep 03 17:22:27 NZST 2026
 comment0.target=HospitalERCompl
 comment0.text=\r\n Simulation of a Hospital ER\r\n \r\n The hospital has a collection of Departments, including the ER department, each of which has\r\n  and a treatment room.\r\n \r\n When patients arrive at the hospital, they are immediately assessed by the\r\n  triage team who determine the priority of the patient and (unrealistically) a sequence of treatments \r\n  that the patient will need.\r\n\r\n The simulation should move patients through the departments for each of the required treatments,\r\n finally discharging patients when they have completed their final treatment.\r\n\r\n  READ THE ASSIGNMENT PAGE\!\r\n
 comment1.params=usePriorityQueues

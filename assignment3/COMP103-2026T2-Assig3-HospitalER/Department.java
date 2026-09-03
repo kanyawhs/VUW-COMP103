@@ -62,26 +62,26 @@ public class Department{
     }
     
     public Queue<Patient> getWaitingPatients() {
-        if (!waitingRoom.isEmpty()) {
+        /*if (!waitingRoom.isEmpty()) {
             UI.println("Patients waiting for " + name + ": ");
             for (Patient p: waitingRoom) {
                 UI.println(p.toString());
             }
         } else {
             UI.println("No patients currently waiting for " + name);
-        }
+        }*/ // debugging
         return waitingRoom;
     }
     
     public Set<Patient> getTreatingPatients() {
-        if (!treatmentRoom.isEmpty()) {
+        /*if (!treatmentRoom.isEmpty()) {
             UI.println("Patients being treated in " + name + ": ");
             for (Patient p: treatmentRoom) {
                 UI.println(p.toString());
             }
         } else {
             UI.println("No patients being treated in " + name + " department.");
-        }
+        } */ // debugging
         return treatmentRoom;
     }
     

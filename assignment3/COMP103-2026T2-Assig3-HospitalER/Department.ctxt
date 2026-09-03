@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Sep 03 16:51:43 NZST 2026
+#Thu Sep 03 17:22:23 NZST 2026
 comment0.target=Department
 comment0.text=\r\n A treatment Department (ER, X-Ray, MRI, ER, UltraSound, Surgery)\r\n Each department will need\r\n - A name,\r\n - A maximum number of patients that can be treated at the same time\r\n - A Set of Patients that are currently being treated\r\n - A Queue of Patients waiting to be treated.\r\n    (ordinary queue, or priority queue, depending on argument to constructor)\r\n
 comment1.params=name maxPatients usePriQueue
