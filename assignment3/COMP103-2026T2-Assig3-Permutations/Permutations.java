@@ -3,9 +3,10 @@
 // You may not distribute it in any other way without permission.
 
 /* Code for COMP103 - 2026T2, Assignment 3
- * Name:
- * Username:
- * ID:
+ * Name: Kanya Farley
+ * Username: farleykany
+ * ID: 300693857
+ * Version: 3/9
  */
 
 import ecs100.*;
@@ -40,8 +41,8 @@ public class Permutations {
 
     /**
      * Recursive method to build all permutations possible by adding the
-     *  remaining items on to the end of the permutation built up so far 
-     * If there are no remaining items, then permutationSoFar is complete,
+     *  remaining items on to the end of the permutation built up so far    // add them all to a stack
+     * If there are no remaining items, then permutationSoFar is complete,  // finish and add to allPermutations (make sure it doesnt repeat)
      *   => add a copy of the permutation to allPermutations.
      * Otherwise,
      *  for each of the remaining items,
@@ -57,8 +58,10 @@ public class Permutations {
     public void extendPermutation(Set<String> remainingItems, Stack<String> permutationSoFar, List<List<String>> allPermutations){
         /*# YOUR CODE HERE */
         for (String p : remainingItems) {
-            
+            permutationSoFar.add(p); // shuffle?
         }
+        allPermutations.add(permutationSoFar);
+        permutationSoFar.clear();
     }
 
     //===================================================
