@@ -57,17 +57,21 @@ public class Permutations {
      */
     public void extendPermutation(Set<String> remainingItems, Stack<String> permutationSoFar, List<List<String>> allPermutations){
         /*# YOUR CODE HERE */
-        if (remainingItems.isEmpty() && !allPermutations.contains(new ArrayList<String>(permutationSoFar)) && allPermutations.size() <= 10000) {
-            allPermutations.add(permutationSoFar);
-            remainingItems.add(permutationSoFar.pop());
-            permutationSoFar.clear();
-        }
-        for (String s : new HashSet<>(remainingItems)) {
-            remainingItems.remove(s);
-            permutationSoFar.push(s);
-            extendPermutation(remainingItems, permutationSoFar, allPermutations); // recursion
-            permutationSoFar.remove(s);
-            remainingItems.add(s);
+        if (allPermutations.size() <= 10000) {
+            if (remainingItems.isEmpty() && !allPermutations.contains(new ArrayList<String>(permutationSoFar))) {
+                allPermutations.add(new ArrayList<>(permutationSoFar));
+                counter++;
+                return;
+            }
+            for (String s : new HashSet<>(remainingItems)) {
+                remainingItems.remove(s);
+                permutationSoFar.push(s);
+                extendPermutation(remainingItems, permutationSoFar, allPermutations); // recursion
+                String next = permutationSoFar.pop();
+                remainingItems.add(next);
+            }
+        } else {
+            return;
         }
     }
     //===================================================
