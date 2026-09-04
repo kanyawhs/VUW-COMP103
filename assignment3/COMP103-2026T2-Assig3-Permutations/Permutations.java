@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 300693857
- * Version: 3/9
+ * Version: 4/9
  */
 
 import ecs100.*;
@@ -41,8 +41,8 @@ public class Permutations {
 
     /**
      * Recursive method to build all permutations possible by adding the
-     *  remaining items on to the end of the permutation built up so far    // add them all to a stack
-     * If there are no remaining items, then permutationSoFar is complete,  // finish and add to allPermutations (make sure it doesnt repeat)
+     *  remaining items on to the end of the permutation built up so far 
+     * If there are no remaining items, then permutationSoFar is complete, 
      *   => add a copy of the permutation to allPermutations.
      * Otherwise,
      *  for each of the remaining items,
@@ -57,13 +57,19 @@ public class Permutations {
      */
     public void extendPermutation(Set<String> remainingItems, Stack<String> permutationSoFar, List<List<String>> allPermutations){
         /*# YOUR CODE HERE */
-        for (String p : remainingItems) {
-            permutationSoFar.add(p); // shuffle?
+        if (remainingItems.isEmpty() && !allPermutations.contains(new ArrayList<String>(permutationSoFar)) && allPermutations.size() <= 10000) {
+            allPermutations.add(permutationSoFar);
+            remainingItems.add(permutationSoFar.pop());
+            permutationSoFar.clear();
         }
-        allPermutations.add(permutationSoFar);
-        permutationSoFar.clear();
+        for (String s : new HashSet<>(remainingItems)) {
+            remainingItems.remove(s);
+            permutationSoFar.push(s);
+            extendPermutation(remainingItems, permutationSoFar, allPermutations); // recursion
+            permutationSoFar.remove(s);
+            remainingItems.add(s);
+        }
     }
-
     //===================================================
     // User Interface code
 
