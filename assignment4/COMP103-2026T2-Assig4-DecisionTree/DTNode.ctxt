@@ -1,5 +1,5 @@
 #BlueJ class context
-#Mon Sep 14 20:23:12 NZST 2026
+#Tue Sep 15 13:53:59 NZST 2026
 comment0.target=DTNode
 comment0.text=\r\n A Decision Tree is a structure for getting to an answer by following\r\n through a tree of yes/no questions.\r\n Each node has a field to hold the text of a question or decision, and\r\n  either two children or no children.\r\n If a node has two children,\r\n - the text represents the question to ask\r\n - the Yes child is the decision tree to follow if the answer to the question is yes\r\n - the No child is the decision tree to follow if the answer to the question is no\r\n If a node has no children (a leaf node)\r\n - the text represents the decision or answer\r\n A leaf node can be turned into an internal node by\r\n  changing its text to a question and adding two children.\r\n
 comment1.params=txt

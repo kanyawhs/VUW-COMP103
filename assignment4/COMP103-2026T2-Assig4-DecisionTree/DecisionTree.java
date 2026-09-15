@@ -78,11 +78,12 @@ public class DecisionTree {
         /*# YOUR CODE HERE */
         Stack<DTNode> toDo = new Stack<DTNode>();
         toDo.add(theTree);
+        // second subtree (n child to root) goes in post-order?
         while (!toDo.isEmpty()) {
             DTNode n = toDo.pop();
             printSubTree(n);
-            if (n.getYes() != null && !n.getYes().isAnswer()) { toDo.push(n.getYes());}
             if (n.getNo() != null && !n.getNo().isAnswer()) { toDo.push(n.getNo());}
+            if (n.getYes() != null && !n.getYes().isAnswer()) { toDo.push(n.getYes());}
         }
     }
 
@@ -116,7 +117,20 @@ public class DecisionTree {
      */
     public void runTree() {
         /*# YOUR CODE HERE */
-
+        DTNode n = theTree;
+        while (n != null) {
+            if (!n.isAnswer()) {
+                String ans = UI.askString("Is it true: " + n.getText() + " (yes/no): ");
+                if (ans.toLowerCase().equals("yes")) {
+                    n = n.getYes();
+                } else if (ans.toLowerCase().equals("no")) {
+                    n = n.getNo();
+                } else { UI.println("Sorry, answer invalid."); }
+            } else if (n.isAnswer()) {
+                UI.println("The animal is: " + n.getText());
+                return;
+            }
+        }
     }
 
     /**
@@ -134,6 +148,48 @@ public class DecisionTree {
      */
     public void growTree () {
         /*# YOUR CODE HERE */
+        DTNode n = theTree;
+        while (n != null) {
+            if (!n.isAnswer()) {
+                String ans = UI.askString("Is it true: " + n.getText() + " (yes/no): ");
+                if (ans.toLowerCase().equals("yes")) {
+                    n = n.getYes();
+                } else if (ans.toLowerCase().equals("no")) {
+                    n = n.getNo();
+                } else { UI.println("Sorry, answer invalid."); }
+            } else if (n.isAnswer()) {
+                String ans = UI.askString("I think I know. Is the animal a " + n.getText() + "?");
+                if (ans.toLowerCase().equals("yes")) {
+                    UI.println("Amazing!!");
+                } else if (ans.toLowerCase().equals("no")) {
+                    String newNode = UI.askString("Okay, what animal is it?");
+                    UI.println("Oh. I can't distinguish a " + n.getText() + " from a " + newNode);
+                    String property = UI.askString("Tell me something that's true for a " + newNode + " but not for a " + n.getText());
+                    // gets caught after above line
+                    
+                    /* (temporarily) removing guess */
+                    DTNode memory = n; // memorises guess
+                    n = null; // potential issue
+                    DTNode parent = theTree;
+                    Stack<DTNode> toCheck = new Stack<DTNode>();
+                    toCheck.add(parent);
+                    while (toCheck != null) {
+                        parent = toCheck.pop();
+                        if (parent.getYes() == memory || parent.getNo() == memory) {
+                            break;
+                        }
+                    }
+                    
+                    /* adding new question, new answer, and memory */
+                    DTNode newAnswer = new DTNode(newNode);
+                    DTNode newQuestion = new DTNode(property, newAnswer, n);
+                    
+                    
+                    UI.println("Thank you! I've updated my decision tree.");
+                } else { UI.println("Sorry, answer invalid.");}
+                return;
+            }
+        }
 
     }
 
@@ -177,6 +233,5 @@ public class DecisionTree {
         return node;
 
     }
-
 
 }
