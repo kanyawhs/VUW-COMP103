@@ -1,5 +1,5 @@
 #BlueJ class context
-#Wed Sep 16 12:17:47 NZST 2026
+#Wed Sep 16 18:00:29 NZST 2026
 comment0.target=MineSweeper
 comment0.text=\r\n  Simple 'Minesweeper' program.\r\n  There is a grid of squares, some of which contain a mine.\r\n  \r\n  The user can click on a square to either expose it or to\r\n  mark/unmark it.\r\n  \r\n  If the user exposes a square with a mine, they lose.\r\n  Otherwise, it is uncovered, and shows a number which represents the\r\n  number of mines in the eight squares surrounding that one.\r\n  If there are no mines adjacent to it, then all the unexposed squares\r\n  immediately adjacent to it are exposed (and so on)\r\n\r\n  If the user marks a square, then they cannot expose the square,\r\n  (unless they unmark it first)\r\n  When all the squares without mines are exposed, the user has won.\r\n
 comment1.target=void setupGUI()

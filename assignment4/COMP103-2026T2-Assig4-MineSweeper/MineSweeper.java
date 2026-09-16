@@ -80,8 +80,15 @@ public class MineSweeper {
      */
     public void mark(int row, int col){
         /*# YOUR CODE HERE */
-        
-        square.draw(row, col); // what
+        Square square = this.squares[row][col];
+        if (square.isExposed()) { return;}
+        if (square.isMarked()) {
+            square.unMark();
+            square.draw(row, col);
+        } else if (!square.isMarked()) {
+            square.mark();
+        }
+        square.draw(row, col);
     }
 
 
@@ -95,6 +102,15 @@ public class MineSweeper {
      */
     public void tryExpose(int row, int col){
         /*# YOUR CODE HERE */
+        Square square = this.squares[row][col];
+        if (square.isMarked() || square.isExposed()) {return;}
+        if (square.hasMine()) {
+            drawLose();
+            square.draw(row, col);
+        } else {
+            square.setExposed();
+            square.draw(row, col);
+        }
         
         if (hasWon()){
             drawWin();
@@ -114,7 +130,16 @@ public class MineSweeper {
      */
     public void exposeSquareAt(int row, int col){
         /*# YOUR CODE HERE */
-
+        Square square = this.squares[row][col];
+        if (square.isExposed()){
+            return;
+        } else {
+            square.setExposed();
+            square.draw(row, col);
+            if (square.getAdjacentMines() == 0) {
+                // ugh hard
+            }
+        }
     }
 
     /**
@@ -125,7 +150,12 @@ public class MineSweeper {
      */
     public boolean hasWon(){
         /*# YOUR CODE HERE */
-
+        for (int i = 0; i <= ROWS; i++) {
+            for (int j = 0; j <= COLS; j++) {
+                Square checking = squares[i][j];
+                if (!checking.hasMine()) {return false;}
+            }
+        }
         return true;
     }
 
