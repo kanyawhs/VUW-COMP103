@@ -5,8 +5,8 @@
 /* Code for COMP103 - 2026T2, Assignment 4
  * Name: Kanya Farley
  * Username: farleka
- * ID: 30069
- * Version: 16/9
+ * ID: 300693857
+ * Version: 17/9
  */
 
 import ecs100.*;
@@ -72,7 +72,7 @@ public class MineSweeper {
     }
 
     // Other Methods
-   /**
+    /**
      * Mark (or unmark) the square.
      * If the square is exposed, don't do anything,
      * If it is marked, unmark it and redraw,
@@ -91,7 +91,6 @@ public class MineSweeper {
         square.draw(row, col);
     }
 
-
     /**
      * Respond to the player clicking on a square to expose it
      * - if it is already exposed or marked, do nothing.
@@ -104,14 +103,9 @@ public class MineSweeper {
         /*# YOUR CODE HERE */
         Square square = this.squares[row][col];
         if (square.isMarked() || square.isExposed()) {return;}
-        if (square.hasMine()) {
-            drawLose();
-            square.draw(row, col);
-        } else {
-            square.setExposed();
-            square.draw(row, col);
-        }
-        
+        square.setExposed();
+        if (square.hasMine()) {drawLose();} else { exposeSquareAt(row, col);}
+
         if (hasWon()){
             drawWin();
         }
@@ -131,13 +125,18 @@ public class MineSweeper {
     public void exposeSquareAt(int row, int col){
         /*# YOUR CODE HERE */
         Square square = this.squares[row][col];
-        if (square.isExposed()){
-            return;
-        } else {
-            square.setExposed();
-            square.draw(row, col);
-            if (square.getAdjacentMines() == 0) {
-                // ugh hard
+        if (square.isExposed()){return;}
+        square.setExposed();
+        square.draw(row, col); // this the problem i think
+        if (square.getAdjacentMines() < 1) {
+            int startRow = (row-1 < 0) ? row : row-1;
+            int startCol = (col-1 < 0) ? col : col-1;
+            int endRow = (row+1 > ROWS) ? row : row+1;
+            int endCol = (col+1 > COLS) ? col : col+1;
+            for (int rowN = startRow; rowN <= endRow; rowN++) {
+                for (int colN = startCol; colN < endCol; colN++) {
+                    exposeSquareAt(rowN, colN);
+                }
             }
         }
     }
@@ -150,10 +149,11 @@ public class MineSweeper {
      */
     public boolean hasWon(){
         /*# YOUR CODE HERE */
-        for (int i = 0; i <= ROWS; i++) {
-            for (int j = 0; j <= COLS; j++) {
+        // loops through mines to check if any unexposed squares dont have a mine
+        for (int i = 0; i < ROWS; i++) {
+            for (int j = 0; j < COLS; j++) {
                 Square checking = squares[i][j];
-                if (!checking.hasMine()) {return false;}
+                if (!checking.hasMine() && !checking.isExposed()) {return false;}
             }
         }
         return true;
@@ -161,7 +161,6 @@ public class MineSweeper {
 
     // completed methods
 
- 
     /**
      * Respond to the Mark and Expose buttons:
      * Remember whether the user is currently "Marking" or "Exposing"

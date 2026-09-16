@@ -3,9 +3,9 @@
 // You may not distribute it in any other way without permission.
 
 /* Code for COMP103 - 2026T2, Assignment 4
- * Name:
- * Username:
- * ID:
+ * Name: Kanya Farley
+ * Username: farleykany
+ * ID: 300693857
  */
 
 import java.util.*;
