@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 30069
- * Version: 16/9
+ * Version: 17/9
  */
 
 /**
@@ -84,7 +84,7 @@ public class DecisionTree {
      */
     private void printSubTree(DTNode n, String indentation) {
         if (n == null) {return;}
-        
+
         UI.println(n.getText());
 
         // checks if yes node is an answer
@@ -179,9 +179,37 @@ public class DecisionTree {
     }
 
     // You will need to define methods for the Completion and Challenge parts.
-    
+
     public void saveTree() {
-        // make a file and schtuff
+        String filename = UIFileChooser.save();
+        ArrayList<String> lines = new ArrayList<String>();
+        
+        // has to be recursive
+        Stack<DTNode> toDo = new Stack<DTNode>();
+        String indent = null; // root indent starts null
+        toDo.push(theTree);
+        while (!toDo.isEmpty()) {
+            DTNode n = toDo.pop();
+            lines.add(indent + n.getText());
+            if (n.getNo() != null) {
+                indent = "   y:";
+                toDo.push(n.getNo());
+            }
+            if (n.getYes() != null) {
+                indent = "   no:";
+                toDo.push(n.getYes());
+            }
+        }
+        
+        try {
+            PrintStream outfile = new PrintStream(filename);
+            for (String line: lines) {
+                outfile.println(line);
+            }
+            outfile.close();
+        } catch (IOException e) {
+            UI.println("Couldn't write file.");
+        }
     }
     // Written for you
 
