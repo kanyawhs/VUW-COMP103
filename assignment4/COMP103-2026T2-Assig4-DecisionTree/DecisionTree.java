@@ -76,36 +76,29 @@ public class DecisionTree {
     public void printTree(){
         UI.clearText();
         /*# YOUR CODE HERE */
-        Stack<DTNode> toDo = new Stack<DTNode>();
-        toDo.push(theTree);
-        // second subtree (n child to root) goes in post-order?
-        while (!toDo.isEmpty()) {
-            DTNode n = toDo.pop();
-            printSubTree(n);
-            if (n.getNo() != null && !n.getNo().isAnswer()) { toDo.push(n.getNo());}
-            if (n.getYes() != null && !n.getYes().isAnswer()) { toDo.push(n.getYes());}
-        }
+        printSubTree(theTree, "  ");
     }
 
     /**
      * Recursive helper method for above
      */
-    private void printSubTree(DTNode n) {
-        if (n != null) {
-            UI.println(n.getText());
+    private void printSubTree(DTNode n, String indentation) {
+        if (n == null) {return;}
+        
+        UI.println(n.getText());
 
-            // checks if yes node is an answer
-            if (n.getYes() != null && n.getYes().isAnswer()) {
-                UI.print("yes:");
-                printSubTree(n.getYes());
-            } //else /*if (n.getYes() != null)*/ { printSubTree(n.getYes());}
+        // checks if yes node is an answer
+        if (n.getYes() != null) {
+            UI.print(indentation + " y:");
+            printSubTree(n.getYes(), indentation + "  ");
+        } 
 
-            // checks if no node is an answer
-            if (n.getNo() != null && n.getNo().isAnswer()) {
-                UI.print("no:");
-                printSubTree(n.getNo());
-            } //else /*if (n.getNo() != null)*/ { printSubTree(n.getYes());}
+        // checks if no node is an answer
+        if (n.getNo() != null) {
+            UI.print(indentation + " n:");
+            printSubTree(n.getNo(), indentation + "  ");
         }
+
     }
 
     /**
@@ -165,19 +158,18 @@ public class DecisionTree {
                     String newNode = UI.askString("Okay, what animal is it?");
                     UI.println("Oh. I can't distinguish a " + n.getText() + " from a " + newNode);
                     String property = UI.askString("Tell me something that's true for a " + newNode + " but not for a " + n.getText());
-                    
+
                     // replace guess
                     String memory = n.getText(); // memorises guess
                     DTNode newQuestion = new DTNode(property);
-                    
+
                     n.setText(property); // set guess as new question
-                    // need to make it not an answer!!!!!!!
-                    
+
                     // add new children
                     DTNode newYes = new DTNode(newNode);
                     DTNode newNo = new DTNode(memory);
-                    newQuestion.setChildren(newYes, newNo);
-                    
+                    n.setChildren(newYes, newNo);
+
                     UI.println("Thank you! I've updated my decision tree.");
                 } else { UI.println("Sorry, answer invalid.");}
                 return;
@@ -187,7 +179,10 @@ public class DecisionTree {
     }
 
     // You will need to define methods for the Completion and Challenge parts.
-
+    
+    public void saveTree() {
+        // make a file and schtuff
+    }
     // Written for you
 
     /** 
