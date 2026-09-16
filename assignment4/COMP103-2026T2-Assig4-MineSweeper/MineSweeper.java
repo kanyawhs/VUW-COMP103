@@ -3,9 +3,10 @@
 // You may not distribute it in any other way without permission.
 
 /* Code for COMP103 - 2026T2, Assignment 4
- * Name:
- * Username:
- * ID:
+ * Name: Kanya Farley
+ * Username: farleka
+ * ID: 30069
+ * Version: 16/9
  */
 
 import ecs100.*;
@@ -79,8 +80,8 @@ public class MineSweeper {
      */
     public void mark(int row, int col){
         /*# YOUR CODE HERE */
-
-        square.draw(row, col);
+        
+        square.draw(row, col); // what
     }
 
 
@@ -94,7 +95,7 @@ public class MineSweeper {
      */
     public void tryExpose(int row, int col){
         /*# YOUR CODE HERE */
-
+        
         if (hasWon()){
             drawWin();
         }

@@ -169,7 +169,9 @@ public class DecisionTree {
                     // replace guess
                     String memory = n.getText(); // memorises guess
                     DTNode newQuestion = new DTNode(property);
-                    n = newQuestion; // set guess as new question
+                    
+                    n.setText(property); // set guess as new question
+                    // need to make it not an answer!!!!!!!
                     
                     // add new children
                     DTNode newYes = new DTNode(newNode);
@@ -177,7 +179,6 @@ public class DecisionTree {
                     newQuestion.setChildren(newYes, newNo);
                     
                     UI.println("Thank you! I've updated my decision tree.");
-                    /** currently doesn't actually save :( */
                 } else { UI.println("Sorry, answer invalid.");}
                 return;
             }
