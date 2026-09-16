@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 30069
- * Version: 14/9
+ * Version: 16/9
  */
 
 /**
@@ -77,7 +77,7 @@ public class DecisionTree {
         UI.clearText();
         /*# YOUR CODE HERE */
         Stack<DTNode> toDo = new Stack<DTNode>();
-        toDo.add(theTree);
+        toDo.push(theTree);
         // second subtree (n child to root) goes in post-order?
         while (!toDo.isEmpty()) {
             DTNode n = toDo.pop();
@@ -165,27 +165,19 @@ public class DecisionTree {
                     String newNode = UI.askString("Okay, what animal is it?");
                     UI.println("Oh. I can't distinguish a " + n.getText() + " from a " + newNode);
                     String property = UI.askString("Tell me something that's true for a " + newNode + " but not for a " + n.getText());
-                    // gets caught after above line
                     
-                    /* (temporarily) removing guess */
-                    DTNode memory = n; // memorises guess
-                    n = null; // potential issue
-                    DTNode parent = theTree;
-                    Stack<DTNode> toCheck = new Stack<DTNode>();
-                    toCheck.add(parent);
-                    while (toCheck != null) {
-                        parent = toCheck.pop();
-                        if (parent.getYes() == memory || parent.getNo() == memory) {
-                            break;
-                        }
-                    }
+                    // replace guess
+                    String memory = n.getText(); // memorises guess
+                    DTNode newQuestion = new DTNode(property);
+                    n = newQuestion; // set guess as new question
                     
-                    /* adding new question, new answer, and memory */
-                    DTNode newAnswer = new DTNode(newNode);
-                    DTNode newQuestion = new DTNode(property, newAnswer, n);
-                    
+                    // add new children
+                    DTNode newYes = new DTNode(newNode);
+                    DTNode newNo = new DTNode(memory);
+                    newQuestion.setChildren(newYes, newNo);
                     
                     UI.println("Thank you! I've updated my decision tree.");
+                    /** currently doesn't actually save :( */
                 } else { UI.println("Sorry, answer invalid.");}
                 return;
             }
