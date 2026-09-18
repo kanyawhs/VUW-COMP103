@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Sep 17 09:12:39 NZST 2026
+#Fri Sep 18 15:50:07 NZST 2026
 comment0.target=Square
 comment0.text=\ Represents information about one square in a MineSweeper map.\r\n   It records\r\n     its location (Row and Column)\r\n     whether it has a mine or not\r\n     how many squares around it have mines\r\n     whether it is marked or unmarked\r\n     whether it is hidden or exposed\r\n   Its constructor must specify the location and\r\n     whether it has a mine or not\r\n   It has methods to \r\n     draw itself, (showing its state appropriately) given origin of the map.\r\n     set the number of mines around it.\r\n     report whether it has a mine and whether it is exposed\r\n     change its state between marked and unmarked\r\n     change its state to exposed\r\n
 comment1.params=mine

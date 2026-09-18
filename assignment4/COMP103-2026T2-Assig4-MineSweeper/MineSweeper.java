@@ -103,11 +103,14 @@ public class MineSweeper {
         /*# YOUR CODE HERE */
         Square square = this.squares[row][col];
         if (square.isMarked() || square.isExposed()) {return;}
-        square.setExposed();
-        if (square.hasMine()) {drawLose();} else { exposeSquareAt(row, col);}
-
+        exposeSquareAt(row, col);
+        if (square.hasMine()) {
+            drawLose();
+            return;
+        }
         if (hasWon()){
             drawWin();
+            return;
         }
     }
 
@@ -131,10 +134,10 @@ public class MineSweeper {
         if (square.getAdjacentMines() < 1) {
             int startRow = (row-1 < 0) ? row : row-1;
             int startCol = (col-1 < 0) ? col : col-1;
-            int endRow = (row+1 > ROWS) ? row : row+1;
-            int endCol = (col+1 > COLS) ? col : col+1;
+            int endRow = (row+1 >= ROWS) ? row : row+1;
+            int endCol = (col+1 >= COLS) ? col : col+1;
             for (int rowN = startRow; rowN <= endRow; rowN++) {
-                for (int colN = startCol; colN < endCol; colN++) {
+                for (int colN = startCol; colN <= endCol; colN++) {
                     exposeSquareAt(rowN, colN);
                 }
             }
