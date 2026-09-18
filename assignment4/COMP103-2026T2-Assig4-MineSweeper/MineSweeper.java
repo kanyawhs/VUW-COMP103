@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleka
  * ID: 300693857
- * Version: 17/9
+ * Version: 18/9
  */
 
 import ecs100.*;
@@ -106,11 +106,11 @@ public class MineSweeper {
         exposeSquareAt(row, col);
         if (square.hasMine()) {
             drawLose();
-            return;
+            return; // method not repeated once losing
         }
         if (hasWon()){
             drawWin();
-            return;
+            return; // method not repeated once winning
         }
     }
 
@@ -130,15 +130,15 @@ public class MineSweeper {
         Square square = this.squares[row][col];
         if (square.isExposed()){return;}
         square.setExposed();
-        square.draw(row, col); // this the problem i think
+        square.draw(row, col);
         if (square.getAdjacentMines() < 1) {
-            int startRow = (row-1 < 0) ? row : row-1;
-            int startCol = (col-1 < 0) ? col : col-1;
-            int endRow = (row+1 >= ROWS) ? row : row+1;
-            int endCol = (col+1 >= COLS) ? col : col+1;
+            int startRow = (row-1 < 0) ? row : row-1; // checks boundaries for square behind in row
+            int startCol = (col-1 < 0) ? col : col-1; // checks boundaries for square behind in col
+            int endRow = (row+1 >= ROWS) ? row : row+1; // checks boundaries for square ahead in row
+            int endCol = (col+1 >= COLS) ? col : col+1; // checks boundaries for square behind in row
             for (int rowN = startRow; rowN <= endRow; rowN++) {
                 for (int colN = startCol; colN <= endCol; colN++) {
-                    exposeSquareAt(rowN, colN);
+                    exposeSquareAt(rowN, colN); // mine is recursively exposed if no neighbouring mines around
                 }
             }
         }

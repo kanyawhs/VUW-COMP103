@@ -1,9 +1,12 @@
 #BlueJ class context
-#Fri Sep 18 15:31:52 NZST 2026
+#Fri Sep 18 15:54:42 NZST 2026
 comment0.target=DecisionTree
 comment1.params=args
 comment1.target=void main(java.lang.String[])
 comment1.text=\r\n Setup the GUI and make a sample tree\r\n
+comment10.params=lines
+comment10.target=DTNode loadSubTree(java.util.Queue)
+comment10.text=\r\n Loads a tree (or subtree) from a Scanner and returns the root.\r\n The first line has the text for the root node of the tree (or subtree)\r\n It should make the node, and \r\n   if the first line starts with "Question\:", it loads two subtrees (yes, and no)\r\n    from the scanner and add them as the  children of the node,\r\n Finally, it should return the  node.\r\n
 comment2.target=void setupGUI()
 comment2.text=\r\n Set up the interface\r\n
 comment3.target=void printTree()
@@ -16,10 +19,11 @@ comment5.text=\r\n Run the tree by starting at the top (of theTree), and working
 comment6.target=void growTree()
 comment6.text=\r\n Grow the tree by allowing the user to extend the tree.\r\n Like runTree, it starts at the top (of theTree), and works its way down the tree\r\n  until it finally gets to a leaf node. \r\n If the current node has a question, then it asks the question in the node,\r\n and depending on the answer, goes to the "yes" child or the "no" child.\r\n If the current node is a leaf it prints the decision, and asks if it is right.\r\n If it was wrong, it\r\n  - asks the user what the decision should have been,\r\n  - asks for a question to distinguish the right decision from the wrong one\r\n  - changes the text in the node to be the question\r\n  - adds two new children (leaf nodes) to the node with the two decisions.\r\n
 comment7.target=void saveTree()
-comment8.params=filename
-comment8.target=void loadTree(java.lang.String)
-comment8.text=\ \r\n Loads a decision tree from a file.\r\n Each line starts with either "Question\:" or "Answer\:" and is followed by the text\r\n Calls a recursive method to load the tree and return the root node,\r\n  and assigns this node to theTree.\r\n
-comment9.params=lines
-comment9.target=DTNode loadSubTree(java.util.Queue)
-comment9.text=\r\n Loads a tree (or subtree) from a Scanner and returns the root.\r\n The first line has the text for the root node of the tree (or subtree)\r\n It should make the node, and \r\n   if the first line starts with "Question\:", it loads two subtrees (yes, and no)\r\n    from the scanner and add them as the  children of the node,\r\n Finally, it should return the  node.\r\n
-numComments=10
+comment7.text=\r\n Allows player to choose an existing file or create a new .txt file\r\n Tree is traversed to gradually add lines to line ArrayList\r\n Lines are printed into file.\r\n
+comment8.params=n toAdd lines
+comment8.target=java.util.ArrayList saveSubTree(DTNode, java.lang.String, java.util.ArrayList)
+comment8.text=\r\n Recursive helper method for saving tree.\r\n Tree is traversed recursively in a pre-order fashion, passing the node,\r\n the additional text, and the same ArrayList to contiuously add to until\r\n no nodes are left. \r\n
+comment9.params=filename
+comment9.target=void loadTree(java.lang.String)
+comment9.text=\ \r\n Loads a decision tree from a file.\r\n Each line starts with either "Question\:" or "Answer\:" and is followed by the text\r\n Calls a recursive method to load the tree and return the root node,\r\n  and assigns this node to theTree.\r\n
+numComments=11

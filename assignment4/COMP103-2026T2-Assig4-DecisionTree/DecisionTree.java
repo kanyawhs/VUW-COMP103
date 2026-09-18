@@ -179,7 +179,12 @@ public class DecisionTree {
     }
 
     // You will need to define methods for the Completion and Challenge parts.
-
+    
+    /**
+     * Allows player to choose an existing file or create a new .txt file
+     * Tree is traversed to gradually add lines to line ArrayList
+     * Lines are printed into file.
+     */
     public void saveTree() {
         String filename = UIFileChooser.save();
         if (!filename.contains(".txt")){filename = filename + ".txt";}
@@ -195,10 +200,16 @@ public class DecisionTree {
             UI.println("Couldn't write file.");
         }
     }
-
+    
+    /**
+     * Recursive helper method for saving tree.
+     * Tree is traversed recursively in a pre-order fashion, passing the node,
+     * the additional text, and the same ArrayList to contiuously add to until
+     * no nodes are left. 
+     */
     public ArrayList<String> saveSubTree(DTNode n, String toAdd, ArrayList<String> lines) {
         lines.add(toAdd + n.getText());
-
+        
         if (n.getYes() != null) {
             if (!n.getYes().isAnswer()) {
                 toAdd = "Question: ";
@@ -207,6 +218,7 @@ public class DecisionTree {
             }
             saveSubTree(n.getYes(), toAdd, lines);
         }
+        
         if (n.getNo() != null) {
             if (!n.getNo().isAnswer()) {
                 toAdd = "Question: ";
@@ -215,6 +227,7 @@ public class DecisionTree {
             }
             saveSubTree(n.getNo(), toAdd, lines);
         }
+        
         return(lines);
     }
     // Written for you
