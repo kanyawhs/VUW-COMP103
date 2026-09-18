@@ -1,0 +1,13 @@
+Question: has whiskers
+Question: bigger than person
+Answer: Tiger
+Question: no hind legs
+Answer: seal
+Question: can bark
+Answer: dog
+Answer: Cat
+Question: has legs
+Question: has trunk
+Answer: Elephant
+Answer: Rhino
+Answer: Snake

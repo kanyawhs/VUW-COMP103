@@ -5,8 +5,8 @@
 /* Code for COMP103 - 2026T2, Assignment 4
  * Name: Kanya Farley
  * Username: farleykany
- * ID: 30069
- * Version: 17/9
+ * ID: 300693857
+ * Version: 18/9
  */
 
 /**
@@ -55,7 +55,7 @@ public class DecisionTree {
         UI.addButton("Print Tree", this::printTree);
         UI.addButton("Run Tree", this::runTree);
         UI.addButton("Grow Tree", this::growTree);
-        // UI.addButton("Save Tree", this::saveTree);  // for completion
+        UI.addButton("Save Tree", this::saveTree);  // for completion
         // UI.addButton("Draw Tree", this::drawTree);  // for challenge
         UI.addButton("Reset", ()->{loadTree("sample-animal-tree.txt");});
         UI.addButton("Quit", UI::quit);
@@ -182,25 +182,9 @@ public class DecisionTree {
 
     public void saveTree() {
         String filename = UIFileChooser.save();
+        if (!filename.contains(".txt")){filename = filename + ".txt";}
         ArrayList<String> lines = new ArrayList<String>();
-        
-        // has to be recursive
-        Stack<DTNode> toDo = new Stack<DTNode>();
-        String indent = null; // root indent starts null
-        toDo.push(theTree);
-        while (!toDo.isEmpty()) {
-            DTNode n = toDo.pop();
-            lines.add(indent + n.getText());
-            if (n.getNo() != null) {
-                indent = "   y:";
-                toDo.push(n.getNo());
-            }
-            if (n.getYes() != null) {
-                indent = "   no:";
-                toDo.push(n.getYes());
-            }
-        }
-        
+        saveSubTree(theTree, "Question: ", lines);
         try {
             PrintStream outfile = new PrintStream(filename);
             for (String line: lines) {
@@ -210,6 +194,28 @@ public class DecisionTree {
         } catch (IOException e) {
             UI.println("Couldn't write file.");
         }
+    }
+
+    public ArrayList<String> saveSubTree(DTNode n, String toAdd, ArrayList<String> lines) {
+        lines.add(toAdd + n.getText());
+
+        if (n.getYes() != null) {
+            if (!n.getYes().isAnswer()) {
+                toAdd = "Question: ";
+            } else if (n.getYes().isAnswer()) {
+                toAdd = "Answer: ";
+            }
+            saveSubTree(n.getYes(), toAdd, lines);
+        }
+        if (n.getNo() != null) {
+            if (!n.getNo().isAnswer()) {
+                toAdd = "Question: ";
+            } else if (n.getNo().isAnswer()) {
+                toAdd = "Answer: ";
+            }
+            saveSubTree(n.getNo(), toAdd, lines);
+        }
+        return(lines);
     }
     // Written for you
 
