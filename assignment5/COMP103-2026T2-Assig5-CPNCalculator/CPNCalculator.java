@@ -3,9 +3,10 @@
 // You may not distribute it in any other way without permission.
 
 /* Code for COMP103 - 2026T2, Assignment 5
- * Name:
- * Username:
- * ID:
+ * Name: Kanya Farley
+ * Username: farleykany
+ * ID: 300693857
+ * Ver: 30/9
  */
 
 import ecs100.*;
@@ -81,7 +82,55 @@ public class CPNCalculator{
         }
 
         /*# YOUR CODE HERE */
-        
+        ExpElem elem = expr.getItem();
+        String[] constants = {"PI", "E"};
+        String[] applicableOperators = {"+", "-", "*", "/", /*"^", "sqrt", "log", "ln", "sin", "cos", "tan", "dist", "avg"*/};
+        switch (elem.operator) {
+                // handle numbers
+            case "#" :
+                return elem.value;
+
+                // handle constants
+            case "PI" :
+                return Math.PI;
+            case "E" :
+                return Math.E;
+
+                // handle applicable operators with children
+            case "+" :
+                    ArrayList<Double> toAdd = new ArrayList<>();
+                    for (int i = 0; i <= expr.numberOfChildren(); i++) {
+                        toAdd.add(evaluate(expr.getChild(i))); // recursively gets evaluation of each child
+                    }
+                    double total = 0;
+                    for (double v : toAdd) {
+                        total += v;
+                    }
+                return total;
+
+            case "-" :
+                    double first = expr.getChild(0).getItem().value; // first operand
+                    ArrayList<Double> toSubtract = new ArrayList<>();
+                    for (int i = 1; i <= expr.numberOfChildren(); i++) {
+                        toSubtract.add(evaluate(expr.getChild(i)));
+                    }
+                    for (double v : toSubtract) {
+                        first -= v;
+                    }
+                return first;
+            case "*" : // ok chat this one a little harder
+                    ArrayList<Double> toMultiply = new ArrayList<>();
+                    for (int i = 0; i <= expr.numberOfChildren(); i++) {
+                        toMultiply.add(evaluate(expr.getChild(i)));
+                    }
+                    double eval = 0;
+                    for (double v : toMultiply) {
+                        
+                    }
+
+            case "/" :
+
+        }
         return Double.NaN;
     }
 
@@ -113,7 +162,7 @@ public class CPNCalculator{
             return node;
         }
         else {                                        // next token must be a named constant (PI or E)
-                                                      // make a token with the name as the "operator"
+            // make a token with the name as the "operator"
             return new GTNode<ExpElem>(new ExpElem(sc.next()));
         }
     }

@@ -1,5 +1,5 @@
 #BlueJ class context
-#Mon Sep 28 20:49:21 NZDT 2026
+#Wed Sep 30 22:15:17 NZDT 2026
 comment0.target=CPNCalculator
 comment0.text=\r\n Calculator for Cambridge-Polish Notation expressions\r\n (see the description in the assignment page)\r\n User can type in an expression (in CPN) and the program\r\n will compute and print out the value of the expression.\r\n The template provides the method to read an expression and turn it into a tree.\r\n You have to write the method to evaluate an expression tree.\r\n  and also check and report certain kinds of invalid expressions\r\n
 comment1.params=args
