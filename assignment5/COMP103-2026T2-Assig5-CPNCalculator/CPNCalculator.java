@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 300693857
- * Ver: 30/9
+ * Ver: 1/10
  */
 
 import ecs100.*;
@@ -83,8 +83,7 @@ public class CPNCalculator{
 
         /*# YOUR CODE HERE */
         ExpElem elem = expr.getItem();
-        String[] constants = {"PI", "E"};
-        String[] applicableOperators = {"+", "-", "*", "/", /*"^", "sqrt", "log", "ln", "sin", "cos", "tan", "dist", "avg"*/};
+        /* may be inefficient to make new variables for same things?? */
         switch (elem.operator) {
                 // handle numbers
             case "#" :
@@ -98,38 +97,30 @@ public class CPNCalculator{
 
                 // handle applicable operators with children
             case "+" :
-                    ArrayList<Double> toAdd = new ArrayList<>();
-                    for (int i = 0; i <= expr.numberOfChildren(); i++) {
-                        toAdd.add(evaluate(expr.getChild(i))); // recursively gets evaluation of each child
-                    }
-                    double total = 0;
-                    for (double v : toAdd) {
-                        total += v;
-                    }
+                double total = 0;
+                for (int i = 0; i < expr.numberOfChildren(); i++) {
+                    total += evaluate(expr.getChild(i));
+                }
                 return total;
 
             case "-" :
-                    double first = expr.getChild(0).getItem().value; // first operand
-                    ArrayList<Double> toSubtract = new ArrayList<>();
-                    for (int i = 1; i <= expr.numberOfChildren(); i++) {
-                        toSubtract.add(evaluate(expr.getChild(i)));
-                    }
-                    for (double v : toSubtract) {
-                        first -= v;
-                    }
+                double first = (evaluate(expr.getChild(0))); // first operand
+                for (int i = 1; i < expr.numberOfChildren(); i++) {
+                    first -= evaluate(expr.getChild(i));
+                }
                 return first;
-            case "*" : // ok chat this one a little harder
-                    ArrayList<Double> toMultiply = new ArrayList<>();
-                    for (int i = 0; i <= expr.numberOfChildren(); i++) {
-                        toMultiply.add(evaluate(expr.getChild(i)));
-                    }
-                    double eval = 0;
-                    for (double v : toMultiply) {
-                        
-                    }
-
+            case "*" :
+                double eval = (evaluate(expr.getChild(0))); // to start multiplication
+                for (int i = 1; i < expr.numberOfChildren(); i++) {
+                    eval *= evaluate(expr.getChild(i));
+                }
+                return eval;
             case "/" :
-
+                double evaluation = (evaluate(expr.getChild(0)));
+                for (int i = 1; i < expr.numberOfChildren(); i++) {
+                    evaluation /= evaluate(expr.getChild(i));
+                }
+                return evaluation;
         }
         return Double.NaN;
     }
