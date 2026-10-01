@@ -75,6 +75,8 @@ public class CPNCalculator{
      *  => return the appropriate value
      * or it is an operator node with children
      *  => evaluate all the children and then apply the operator.
+     *  
+     *  Every case for every expression checks if child node count is within boundaries for the particular expression.
      */
     public double evaluate(GTNode<ExpElem> expr){
         if (expr==null){
@@ -97,32 +99,153 @@ public class CPNCalculator{
 
                 // handle applicable operators with children
             case "+" :
-                double total = 0;
-                for (int i = 0; i < expr.numberOfChildren(); i++) {
-                    total += evaluate(expr.getChild(i));
+                if (expr.numberOfChildren() > 0) {
+                    double total = 0;
+                    for (int i = 0; i < expr.numberOfChildren(); i++) {
+                        total += evaluate(expr.getChild(i)); // add up every following expression
+                    }
+                    return total;
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'+' must have at least 1 expression following it in parentheses");
+                    return Double.NaN;
                 }
-                return total;
 
             case "-" :
-                double first = (evaluate(expr.getChild(0))); // first operand
-                for (int i = 1; i < expr.numberOfChildren(); i++) {
-                    first -= evaluate(expr.getChild(i));
+                if (expr.numberOfChildren() > 0) {
+                    double first = (evaluate(expr.getChild(0))); // first operand
+                    for (int i = 1; i < expr.numberOfChildren(); i++) {
+                        first -= evaluate(expr.getChild(i)); // subtract all following expressions from first child
+                    }
+                    return first;
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'-' must have at least 1 expression following it in parentheses");
+                    return Double.NaN;
                 }
-                return first;
             case "*" :
-                double eval = (evaluate(expr.getChild(0))); // to start multiplication
-                for (int i = 1; i < expr.numberOfChildren(); i++) {
-                    eval *= evaluate(expr.getChild(i));
+                if (expr.numberOfChildren() > 0) {
+                    double eval = (evaluate(expr.getChild(0))); // to start multiplication
+                    for (int i = 1; i < expr.numberOfChildren(); i++) {
+                        eval *= evaluate(expr.getChild(i)); // multiply every following expression, starting with base number
+                    }
+                    return eval;
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'*' must have at least 1 expression following it in parentheses");
+                    return Double.NaN;
                 }
-                return eval;
             case "/" :
-                double evaluation = (evaluate(expr.getChild(0)));
-                for (int i = 1; i < expr.numberOfChildren(); i++) {
-                    evaluation /= evaluate(expr.getChild(i));
+                if (expr.numberOfChildren() > 0) {
+                    double evaluation = (evaluate(expr.getChild(0))); // to divide
+                    for (int i = 1; i < expr.numberOfChildren(); i++) {
+                        evaluation /= evaluate(expr.getChild(i)); // repeatedly divide first expression with following expressions
+                    }
+                    return evaluation;
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'/' must have at least 1 expression following it in parentheses");
+                    return Double.NaN;
                 }
-                return evaluation;
+
+            // handle more complex operators with children 
+            case "^" :
+                if (expr.numberOfChildren() == 2) {
+                    double result = Math.pow(evaluate(expr.getChild(0)), evaluate(expr.getChild(1))); // find power of first and second following expressions
+                    return result;
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'^' can only have two expressions following it in parentheses.");
+                    return Double.NaN;
+                }
+            case "sqrt" :
+                return Math.sqrt(evaluate(expr.getChild(0)));
+            case "log" : 
+                if (expr.numberOfChildren() == 1) {
+                    double log = Math.log10(evaluate(expr.getChild(0))); // gets log10 of single child node
+                    return log;
+                } else if (expr.numberOfChildren() == 2) {
+                    double value = Math.log(evaluate(expr.getChild(0))); // evaluates log of first operand
+                    double base = Math.log(evaluate(expr.getChild(1))); // evaluates log of second operand
+                    return value / base; // second operand treated as base
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'log' can only have either one or two expressions following it in parentheses.");
+                    return Double.NaN;
+                }
+            case "ln" :
+                if (expr.numberOfChildren() == 1) {
+                    return Math.log(evaluate(expr.getChild(0)));
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'ln' can only take 1 expression following it in parentheses");
+                    return Double.NaN;
+                }
+            // trigonometric functions
+            case "sin" :
+                if (expr.numberOfChildren() == 1) {
+                    return Math.sin(evaluate(expr.getChild(0)));
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'sin' can only take 1 expression following it in parentheses");
+                    return Double.NaN;
+                }
+            case "cos" :
+                if (expr.numberOfChildren() == 1) {
+                    return Math.cos(evaluate(expr.getChild(0)));
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'cos' can only take 1 expression following it in parentheses");
+                    return Double.NaN;
+                }
+            case "tan" :
+                if (expr.numberOfChildren() == 1) {
+                    return Math.tan(evaluate(expr.getChild(0)));
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'tan' can only take 1 expression following it in parentheses");
+                    return Double.NaN;
+                }
+            case "dist" :
+                if (expr.numberOfChildren() == 4) { // for 2d space
+                    double x1 = evaluate(expr.getChild(0));
+                    double y1 = evaluate(expr.getChild(1));
+                    double x2 = evaluate(expr.getChild(2));
+                    double y2 = evaluate(expr.getChild(3));
+                    
+                    double dist = Math.sqrt(((x2 - x1)*(x2 - x1)) + ((y2 - y1)*(y2 - y1))); // formula for euclidean distance
+                    return dist;
+                } else if (expr.numberOfChildren() == 6) { // for 3d space
+                    // something wrong here fr
+                    double x1 = evaluate(expr.getChild(0));
+                    double y1 = evaluate(expr.getChild(1));
+                    double z1 = evaluate(expr.getChild(2));
+                    double x2 = evaluate(expr.getChild(3));
+                    double y2 = evaluate(expr.getChild(4));
+                    double z2 = evaluate(expr.getChild(5));
+                    
+                    double dist = Math.sqrt(((x2 - x1)*(x2 - x1)) + ((y2 - y1)*(y2 - y1)) + ((z2 - z1)*(z2 - z1))); // formula for euclidean distance
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'dist' can only take exactly 4 expressions (2d space) or exactly 6 expressions (3d space) following it in parentheses");
+                    return Double.NaN;
+                }
+            case "avg" :
+                if (expr.numberOfChildren() > 0) {
+                    double sum = 0;
+                    for (int i = 0; i < expr.numberOfChildren(); i++) {
+                        sum += evaluate(expr.getChild(i)); // add up every following expression
+                    }
+                    return sum / expr.numberOfChildren();
+                } else {
+                    UI.println("Input invalid.");
+                    UI.println("'avg' must have at least 1 expression following it in parentheses");
+                    return Double.NaN;
+                }
+            default :
+                UI.println("Invalid expression found. Please try again.");
+                return Double.NaN;
         }
-        return Double.NaN;
     }
 
     /**
