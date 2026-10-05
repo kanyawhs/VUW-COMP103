@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 300693857
- * Ver: 1/10
+ * Ver: 5/10
  */
 
 import ecs100.*;
@@ -225,6 +225,7 @@ public class CPNCalculator{
                     double z2 = evaluate(expr.getChild(5));
                     
                     double dist = Math.sqrt(((x2 - x1)*(x2 - x1)) + ((y2 - y1)*(y2 - y1)) + ((z2 - z1)*(z2 - z1))); // formula for euclidean distance
+                    return dist;
                 } else {
                     UI.println("Input invalid.");
                     UI.println("'dist' can only take exactly 4 expressions (2d space) or exactly 6 expressions (3d space) following it in parentheses");
