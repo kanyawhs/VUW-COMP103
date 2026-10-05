@@ -6,7 +6,7 @@
  * Name: Kanya Farley
  * Username: farleykany
  * ID: 300693857
- * Version: 28/9
+ * Version: 5/10
  */
 
 import ecs100.UI;
@@ -88,24 +88,27 @@ public class MazeSearch {
     public void exploreFromCellAll(MazeCell cell) {
         if (stopNow) { return; }    // exit if user clicked the stop now button
         /*# YOUR CODE HERE */
-        // unsure if this is fully working...
+        /**
+         * need to make it so that cell being checked keeps visiting neighbours if any get remarked as white
+         */
         if (!cell.isVisited()) {
             cell.visit();
             cell.draw(Color.yellow);
             UI.sleep(delay);
             for (MazeCell n : cell) {
                 if (!n.isVisited()) {
-                    if (exploreFromCell(n) == true) {
+                    if (n == maze.getGoal()) {
+                        pathCount++;
                         UI.sleep(1000);
                     } else {
                         n.visit();
                         n.draw(Color.yellow);
-                        exploreFromCell(n);
+                        UI.sleep(delay);
+                        exploreFromCellAll(n);
                     }
-                    // unvisit neighbour
-                    n.unvisit();
-                    n.draw(Color.white);
                 }
+                //n.unvisit();
+                //n.draw(Color.white);
             }
         }
 

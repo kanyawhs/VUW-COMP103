@@ -281,6 +281,5 @@ public class CPNCalculator{
             return new GTNode<ExpElem>(new ExpElem(sc.next()));
         }
     }
-
 }
 

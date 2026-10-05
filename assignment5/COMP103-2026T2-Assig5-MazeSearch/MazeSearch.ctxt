@@ -1,5 +1,5 @@
 #BlueJ class context
-#Thu Oct 01 12:04:20 NZDT 2026
+#Mon Oct 05 17:25:37 NZDT 2026
 comment0.target=MazeSearch
 comment0.text=\r\n Search for paths to the goal in a maze.\r\n The maze consists of a graph of MazeCells\:\r\n  Each cell has a collection of neighbouring cells.\r\n  Each cell can be "visited" and it will remember that it has been visited\r\n  A MazeCell is Iterable, so that you can iterate through its neighbour cells with\r\n    for(MazeCell neighbour \: cell){....\r\n\r\n The maze has a goal cell (shown in green, two thirds towards the bottom right corner)\r\n The maze.getGoal() method returns the goal cell of the maze.\r\n The user can click on a cell, and the program will search for a path\r\n from that cell to the goal.\r\n \r\n Every cell that is looked at during the search is coloured  yellow, and then,\r\n if the cell turns out to be on a dead end, it is coloured red.\r\n
 comment1.params=cell
