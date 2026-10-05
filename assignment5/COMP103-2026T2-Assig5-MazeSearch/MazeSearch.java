@@ -88,30 +88,22 @@ public class MazeSearch {
     public void exploreFromCellAll(MazeCell cell) {
         if (stopNow) { return; }    // exit if user clicked the stop now button
         /*# YOUR CODE HERE */
-        /**
-         * need to make it so that cell being checked keeps visiting neighbours if any get remarked as white
-         */
         if (!cell.isVisited()) {
+            if (cell == maze.getGoal()) {
+                cell.draw(Color.blue);
+                pathCount++;
+                UI.sleep(1000);
+                return; // path is reset
+            }
             cell.visit();
             cell.draw(Color.yellow);
             UI.sleep(delay);
-            for (MazeCell n : cell) {
-                if (!n.isVisited()) {
-                    if (n == maze.getGoal()) {
-                        pathCount++;
-                        UI.sleep(1000);
-                    } else {
-                        n.visit();
-                        n.draw(Color.yellow);
-                        UI.sleep(delay);
-                        exploreFromCellAll(n);
-                    }
-                }
-                //n.unvisit();
-                //n.draw(Color.white);
+            for (MazeCell n : cell) { // do i need this yet?
+                exploreFromCellAll(n);
             }
+            cell.unvisit();
+            cell.draw(Color.white);
         }
-
     }
 
     /** CHALLENGE
@@ -120,7 +112,8 @@ public class MazeSearch {
      */
     public void exploreFromCellShortest(MazeCell start) {
         /*# YOUR CODE HERE */
-
+        int cubeCount = 0;
+        
     }
 
     //=================================================
